@@ -58,7 +58,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.acieran.minesweeper/org.acieran.minesweeper.HelloApplication</mainClass>
+              <mainClass>org.acieran.minesweeper/org.acieran.minesweeper.MineSweeperApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
