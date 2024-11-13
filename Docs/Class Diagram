@@ -1,0 +1,68 @@
+//www.plantuml.com/plantuml/dpng/XLJBRjim4BphA_PefuellUcKnasJ04sSrcbxC7oWfRNDb0-1fFA0u7ylbuH9HwuHmB34cNrePrQwi8uPrqbHr89P2r_QLl2QEQuLz0N0ETWQ5LOmfqi0DapYfMQcWGgk3MyUM2IWuUirhplXtZmptMfU-xZNG3akqNndAnIU2jS0IwvmgZlbZgYOuP57kdha4_owlMEARIGgD_hDRSS4960S8zg6EVoQ7kCRHz6Cnj1RT73DfE-bdD52e9daXzs5tClEEQtcf0P5KjOW8t672LEXBUuJvawth6qZ_s3GsaSk_bVg9puZ4u4SC4dSYVFiE9QwO-RlYKg9-gZEhYYYnGCXe4zoGmLSkMEFz_U9cJq7QrPQ2sJAmyVsNwbEGd_5x5jvhuraehpn5MYSC94zrBbc5W-ogzHmOj7T8DziNVaE-yCRjtqFtNVoZYkq9IXyWKJje8BPwWbhr-zNDSzM-cd3u6LOky4sHkbDTYfBkgB_1LykdfOJtQ8QZSU-pzmPhZRPiDCvHCUSPysRWJLHzkZADWoVRNcXmVDHqiJv65fKG8qNoyMoY6jAu8WcZSLA2e-5mcqiCavPKCKwSOS5gp7eEagXPOeCSISofqnuCvb3Ryni_M3qAvVSlSLQmmhzMXjWGX1kUp9mIej5nnZxUUb_O6M8eNNU7NVTxKKaXlGZIRYTUN_ohaPKUlqzXc57xxN2afwh_D6XfG-VhmGq0rjPPrZjO1OyXeX6yt8xIeK-SZ4mSNaC2aYEtQgaHpGl9dymS-OXUZnicPVd_Fniy9ONxuzmHY47t_eYr2Kml-qq646nMUgUeGjKJIV5Fm00
+
+@startuml
+class Application {
+  - scene: Scene
+  - gameBoard : GridPane
+  - difficulty : ChoiceBox
+  - timerLabel : Label
+  - mineCountLabel : Label
+  - timer : Timer
+  + UIManagment(Visual Managment)
+  + UpdateDifficultyField() {set GameController.difficulty}
+  + ButtonStartGame() {GameController.StartGame}
+  + ButtonCloseGame() {Stopapp}
+  + PressTile() {GameController.RevealTile(GameController.gameBoard.tile)}
+  + MarkTile() {GameController.MarkTile(GameController.gameBoard.tile)}
+}
+
+
+class GameController {
+  - time : int
+  - gameBoard : GameBoard
+  - gameOver : boolean
+
+  - difficulty : Enum {Easy,Normal,Hard}
+
+  + startGame() {case difficulty:GameBoard.setHeight,GameBoard.setWidth,GameBoard.setNumMines, new GameBoard} : Object{GridPane gameBoard,int time,Label mineCountLabel}
+  + revealTile(gameBoard.board[i][j].open()) : String
+  + MarkTile(gameBoard.board[i][j].Mark()) : void
+}
+
+
+class GameBoard {
+  - height: int
+  - width: int
+  - mines: int
+  - board: Tile[][]
+
+  + Board(int height, int width, int mines) Tile[][] : board
+  + PlaceMines(int mines,Tile[][] board) Tile[][] : board
+  + CalculateNumOfProximityMines(Tile[][] board) {for allTiles{new CleanTile(Tile[3][3] smallTile)}} Tile[][] : board
+}
+
+class Tile {
+   - isOpen : boolean
+   - mark : enum {None,Mine,Question}
+
+   + abstract Open()
+   + Mark()
+}
+
+class Mine {
+   + Open()
+}
+
+class CleanTile {
+   - minesInProximity: int
+
+   + CleanTile(Tile[3][3] smallTile) CleanTile : Tile
+   + Open()
+}
+
+GameBoard --* GameController
+GameController *--* Application
+Tile --* GameBoard
+Mine --* Tile
+CleanTile --* Tile
+@enduml
