@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
@@ -13,17 +14,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController {
-
-    @FXML
-    private GridPane gameBoard;
-
-    @FXML
-    private Label timerLabel;
-    @FXML
-    private ChoiceBox<Mode.Difficulty> gameDifficulty;
-
-    @FXML
-    private Label mineCountLabel;
 
     private int rows = 9;
     private int cols = 9;
@@ -33,7 +23,7 @@ public class GameController {
     private boolean gameOver;
     private int minesLeft;
     private Timer timer;
-    private int seconds;
+    protected static int seconds;
 
     @FXML
     public void initialize() {
@@ -55,19 +45,19 @@ public class GameController {
         populateChoiceBoxes();
 
         // Set the initial selections in the ChoiceBoxes
-        gameDifficulty.getSelectionModel().select(String.valueOf(game.mode.difficulty));
+        //gameDifficulty.getSelectionModel().select(String.valueOf(game.mode.difficulty));
 
         // Set up the ChoiceBox action handlers
-        widthChoiceBox.setOnAction(event -> handleWidthChange());
-        heightChoiceBox.setOnAction(event -> handleHeightChange());
-        mineCountChoiceBox.setOnAction(event -> handleMineCountChange());
+//        widthChoiceBox.setOnAction(event -> handleWidthChange());
+//        heightChoiceBox.setOnAction(event -> handleHeightChange());
+//        mineCountChoiceBox.setOnAction(event -> handleMineCountChange());
     }
 
     private void createGameBoard() {
         for (int row = 0; row < Mode.height; row++) {
             for (int col = 0; col < Mode.width; col++) {
                 Button cellButton = createCellButton(row, col);
-                gameBoard.add(cellButton, col, row);
+//                gameBoard.add(cellButton, col, row);
             }
         }
     }
@@ -75,7 +65,7 @@ public class GameController {
     private void populateChoiceBoxes() {
         // Populate widthChoiceBox
         for (int i = 9; i <= 30; i++) {
-            gameDifficulty.getItems().add(Mode.Difficulty.BEGINNER);
+//            gameDifficulty.getItems().add(Mode.Difficulty.BEGINNER);
         }
     }
 
@@ -141,9 +131,9 @@ public class GameController {
     }
 
     private void updateCell(int row, int col, String text, String color) {
-        Button cellButton = (Button) gameBoard.getChildren().get(row * cols + col);
-        cellButton.setText(text);
-        cellButton.setTextFill(javafx.scene.paint.Color.web(color));
+//        Button cellButton = (Button) gameBoard.getChildren().get(row * cols + col);
+//        cellButton.setText(text);
+//        cellButton.setTextFill(javafx.scene.paint.Color.web(color));
     }
 
     private boolean isValidCell(int row, int col) {
@@ -170,16 +160,6 @@ public class GameController {
         // ... (Same code as in the previous example)
     }
 
-    public void startTimer() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    seconds++;
-                    timerLabel.setText("Timer: " + String.valueOf(seconds));
-                });
-            }
-        }, 0, 1000);
+    public void CloseApplication(MouseEvent mouseEvent) {
     }
 }
