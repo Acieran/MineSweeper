@@ -24,15 +24,16 @@ public class MineSweeperApplication extends Application {
     private GridPane gameBoard;
 
     @FXML
-    private Label timerLabel;
+    protected Label timerLabel;
     @FXML
-    private ChoiceBox<String> gameDifficulty;
+    private ChoiceBox<Difficulty> gameDifficulty;
 
     @FXML
     private Label mineCountLabel;
 
     private Timer timer;
 
+    private GameController gameController;
 
     private int seconds = 0;
 
@@ -41,19 +42,37 @@ public class MineSweeperApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MineSweeperApplication.class.getResource("gameboard.fxml"));
         Parent root = fxmlLoader.load();
 
+
         // Set the scene and show the stage
         Scene scene = new Scene(root);
         stage.setTitle("Minesweeper");
         stage.setScene(scene);
         stage.show();
-
-
     }
 
     @FXML
     public void initialize() {
-        // Start the timer
-        startTimer();
+        UIManager();
+        GameController.initialize(timerLabel);
+    }
+
+    private void UIManager() {
+        // Populate the ChoiceBox with Enum values
+        gameDifficulty.getItems().addAll(Difficulty.values());
+
+        // Set the initial selection (optional)
+        gameDifficulty.getSelectionModel().selectFirst();
+
+        gameDifficulty.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    updateDifficulty(newValue);
+                }
+        );
+    }
+
+    public void updateDifficulty(Difficulty newDifficulty)
+    {
+        GameController.updateDifficulty(newDifficulty);
     }
 
     // Method to create the grid
@@ -82,23 +101,6 @@ public class MineSweeperApplication extends Application {
 //        }
 //        return gridPane;
 //    }
-
-    public void startTimer() {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    seconds++;
-                    timerLabel.setText("Timer: " + seconds);
-                });
-            }
-        }, 0, 1000);
-    }
-
-    public void CloseApplication(MouseEvent mouseEvent) {
-        Platform.exit();
-    }
 
     public static void main(String[] args) {
         launch();

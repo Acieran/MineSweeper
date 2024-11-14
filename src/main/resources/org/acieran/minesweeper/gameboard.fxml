@@ -16,8 +16,9 @@
         <?import javafx.scene.layout.VBox?>
         <?import javafx.scene.text.Font?>
 
+<?import java.lang.String?>
 <VBox xmlns:fx="http://javafx.com/fxml"
-      fx:controller="org.acieran.minesweeper.GameController"
+      fx:controller="org.acieran.minesweeper.MineSweeperApplication"
       xmlns="http://javafx.com/javafx"
       fx:id="root"
       prefWidth="400" prefHeight="640" alignment="CENTER">
@@ -35,11 +36,12 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
             </GridPane>
-            <ChoiceBox layoutX="73.0" layoutY="14.0" prefWidth="150.0" fx:id="gameDifficulty"/>
+            <ChoiceBox layoutX="73.0" layoutY="14.0" prefWidth="150.0" fx:id="gameDifficulty">
+            </ChoiceBox>
             <Label layoutX="14.0" layoutY="18.0" text="Timer: 5" fx:id="timerLabel"/>
             <Label layoutX="541.0" layoutY="18.0" text="Mines: " fx:id="mineCountLabel"/>
             <Button layoutX="294.0" layoutY="14.0" mnemonicParsing="false" text="Restart" fx:id="restartButton"/>
-            <Button fx:id="exitButton" layoutX="612.0" layoutY="1.0" onMouseClicked="#CloseApplication" text="✖" textFill="#ec0404" />
+            <Button fx:id="exitButton" layoutX="612.0" layoutY="1.0" text="✖" textFill="#ec0404" />
         </children>
     </AnchorPane>
 </children>
