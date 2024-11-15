@@ -1,13 +1,30 @@
 package org.acieran.minesweeper;
 
-public abstract class Tile {
+public class Tile {
     protected boolean isOpen = false;
-    private enum Mark{
+    protected int x;
+    protected int y;
+    protected static Mark mark;
+
+    private enum Mark {
         NONE,
         MINE,
-        QUESTION
+        QUESTION;
+
+        private static int current = 0;
+
+        public static Mark next() {
+            Mark nextMark = values()[current]; // Get the current value
+            current = (current + 1) % values().length; // Increment and wrap around
+            return nextMark;
+        }
     }
-    protected Mark mark;
+
+    public Tile(int x,int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 
     public boolean isOpen() {
         return isOpen;
@@ -22,7 +39,8 @@ public abstract class Tile {
         return mark;
     }
 
-    public void Mark(Mark mark) {
-        this.mark = mark;
+    public void Mark()
+    {
+        mark = Mark.next();
     }
 }

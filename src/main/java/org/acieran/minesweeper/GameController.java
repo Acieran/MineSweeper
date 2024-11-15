@@ -3,29 +3,17 @@ package org.acieran.minesweeper;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController {
-
-
-    private static GameBoard game;
     private static Timer timer;
-    private static int seconds = 0;
+    private static int seconds;
 
-    protected static Difficulty selectedDifficulty = Difficulty.Easy;
+    protected static Difficulty selectedDifficulty;
 
-    public static int getSeconds()
-    {
-        return seconds;
-    }
-
-    public static void setSeconds(int seconds)
-    {
-        GameController.seconds = seconds;
-    }
+    protected GameBoard game;
 
     public static void updateDifficulty(Difficulty newValue) {
         selectedDifficulty = newValue;
@@ -37,17 +25,15 @@ public class GameController {
     }
 
     @FXML
-    public static void initialize(Label timerLabel) {
+    protected void initialize(Label timerLabel) {
         // Initialize the game state
         game = new GameBoard(selectedDifficulty);
-        System.out.println("Done");
-        //startTimer(timerLabel);
     }
 
-
-
-    public static void startTimer(Label timerLabel) {
+    //Just Timer
+    protected static void startTimer(Label timerLabel) {
         timer = new Timer();
+        seconds = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -57,5 +43,12 @@ public class GameController {
                 });
             }
         }, 0, 1000);
+    }
+
+    //And Timer Stopper
+    protected static void stopTimer()
+    {
+        if (timer != null)
+            timer.cancel();
     }
 }

@@ -3,10 +3,10 @@ package org.acieran.minesweeper;
 import java.util.Random;
 
 public class GameBoard {
-    protected static int height;
-    protected static int width;
-    protected static int mineCount;
-    protected static Tile[][] board;
+    protected int height;
+    protected int width;
+    protected int mineCount;
+    protected Tile[][] board;
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty)
@@ -17,6 +17,7 @@ public class GameBoard {
                 width = 8;
                 mineCount = 10;
                 board = new Tile[height][width];
+                break;
             }
             case Normal:
             {
@@ -24,13 +25,15 @@ public class GameBoard {
                 width = 16;
                 mineCount = 40;
                 board = new Tile[height][width];
+                break;
             }
             case Hard:
             {
-                height = 30;
-                width = 16;
+                height = 22;
+                width = 22;
                 mineCount = 99;
                 board = new Tile[height][width];
+                break;
             }
         }
         setBoard();
@@ -38,74 +41,74 @@ public class GameBoard {
 
     public GameBoard(int height,int width,int mineCount)
     {
-        GameBoard.height = height;
-        GameBoard.width = width;
-        GameBoard.mineCount = mineCount;
+        this.height = height;
+        this.width = width;
+        this.mineCount = mineCount;
         board = new Tile[height][width];
         setBoard();
     }
 
-    public static int getHeight()
+    public int getHeight()
     {
         return height;
     }
 
-    public static void setHeight(int height)
+    public void setHeight(int height)
     {
-        GameBoard.height = height;
+        this.height = height;
     }
 
-    public static int getWidth()
+    public int getWidth()
     {
         return width;
     }
 
-    public static void setWidth(int width)
+    public void setWidth(int width)
     {
-        GameBoard.width = width;
+        this.width = width;
     }
 
-    public static int getMineCount()
+    public int getMineCount()
     {
         return mineCount;
     }
 
-    public static void setMineCount(int mineCount)
+    public  void setMineCount(int mineCount)
     {
-        GameBoard.mineCount = mineCount;
+        this.mineCount = mineCount;
     }
 
-    private static void setMines()
+    private void setMines()
     {
         Random random = new Random();
 
         int minesPlaced = 0;
         while (minesPlaced < mineCount) {
-            int row = random.nextInt(height);
-            int col = random.nextInt(width);
+            int y = random.nextInt(height);
+            int x = random.nextInt(width);
 
-            if (!(board[row][col] instanceof Mine)) {
-                board[row][col] = new Mine();
+            if (!(board[y][x] instanceof Mine)) {
+                board[y][x] = new Mine(x,y);
                 minesPlaced++;
             }
         }
     }
 
-    private static void setCleanTiles()
+    private void setCleanTiles()
     {
-        for (int i = 0; i < height; i++)
+        for (int y = 0; y < height; y++)
         {
-            for (int j = 0; j < width; j++)
+            for (int x = 0; x < width; x++)
             {
-                if (!(board[i][j] instanceof Mine))
+                if (!(board[y][x] instanceof Mine))
                 {
-                    board[i][j] = new CleanTile();
+                    board[y][x] = new CleanTile(x,y);
                 }
             }
         }
     }
 
-    private static void setBoard()
+    private void setBoard()
     {
         setMines();
         setCleanTiles();
