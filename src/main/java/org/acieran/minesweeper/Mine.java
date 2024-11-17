@@ -9,6 +9,6 @@ public class Mine extends Tile{
     @Override
     public void Open() {
         super.Open();
-
+        //TODO Create Open Class in CleanTile
     }
 }
