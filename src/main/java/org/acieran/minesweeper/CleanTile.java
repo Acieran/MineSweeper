@@ -14,9 +14,14 @@ public class CleanTile extends Tile{
         return proximityMineCount;
     }
 
-    public void countProximityMineCount(Tile[][] smalltile) {
-        for (Tile[] tiles : smalltile) {
-            for (Tile tile : tiles) {
+    protected void countProximityMineCount(Tile[][] smalltile) {
+        if (smalltile == null)
+            throw new IllegalArgumentException("Передано пустое поле для подсчета мин");
+        proximityMineCount = 0;
+        for (Tile[] tiles : smalltile)
+        {
+            for (Tile tile : tiles)
+            {
                 if (tile instanceof Mine)
                     proximityMineCount++;
             }
@@ -26,6 +31,7 @@ public class CleanTile extends Tile{
 
     @Override
     public void Open() {
+        super.Open();
         //TODO Create Open Class in CleanTile
     }
 }

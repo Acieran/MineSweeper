@@ -4,21 +4,7 @@ public class Tile {
     protected boolean isOpen = false;
     protected int x;
     protected int y;
-    protected static Mark mark;
-
-    private enum Mark {
-        NONE,
-        MINE,
-        QUESTION;
-
-        private static int current = 0;
-
-        public static Mark next() {
-            Mark nextMark = values()[current]; // Get the current value
-            current = (current + 1) % values().length; // Increment and wrap around
-            return nextMark;
-        }
-    }
+    protected Mark mark = Mark.NONE;
 
     public Tile(int x,int y)
     {
@@ -40,8 +26,9 @@ public class Tile {
     }
 
     //TODO Finish testMark for Tile and implement mark changing on left Click
-    public void Mark()
+    public Mark Mark()
     {
-        mark = Mark.next();
+        mark = mark.next();
+        return mark;
     }
 }
