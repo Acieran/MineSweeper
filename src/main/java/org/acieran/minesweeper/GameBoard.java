@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class GameBoard {
-    protected int height;
-    protected int width;
-    protected int mineCount;
-    protected Tile[][] board;
-    protected ArrayList<Mine> mineList = new ArrayList<>();
+    protected static int height;
+    protected static int width;
+    protected static int mineCount;
+    protected static Tile[][] board;
+    protected static ArrayList<Mine> mineList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {

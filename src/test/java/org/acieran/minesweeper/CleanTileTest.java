@@ -5,12 +5,25 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CleanTileTest
 {
+    @ParameterizedTest
+    @ValueSource(ints = {1,2,3})
+    void testCleanTile(int count)
+    {
+        ArrayList<CleanTile> tiles = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            tiles.add(new CleanTile(0,5));
+            assertNotNull(tiles.get(i));
+            assertEquals(tiles.get(i).x,0);
+            assertEquals(tiles.get(i).y,5);
+        }
+    }
     //TODO Tests for all methods in CleanTile
     @Test
     void testCountProximityMineCount_nullInput()
@@ -24,16 +37,15 @@ class CleanTileTest
     @ValueSource(ints = {1, 3, 7})
     void open(int mines)
     {
-        int minesSet = 0;
         GameBoard gameBoard = new GameBoard(3, 3, mines, false);
         gameBoard.setCleanTiles();
 
         for (int i = 0; i < mines; i++)
         {
-            gameBoard.board[3 - i][3 - (i / 3)] = new Mine(3 - (i / 3), 3 - i);
+            GameBoard.board[3 - i][3 - (i / 3)] = new Mine(3 - (i / 3), 3 - i);
         }
-        gameBoard.setMineCount();
-        gameBoard.board[0][0].open();
+        ArrayList<Tile> openTiles = GameBoard.board[0][0].open();
+        //assertEquals(3*3-mines,CleanTile.cleanTileCount); //assertBeforeOpening
     }
 
 
@@ -43,13 +55,13 @@ class CleanTileTest
     {
         int mineCount = mines;
         GameBoard gameBoard = new GameBoard(3, 3, mines);
-        if (!(gameBoard.board[1][1] instanceof CleanTile))
+        if (!(GameBoard.board[1][1] instanceof CleanTile))
         {
             mineCount--;
-            gameBoard.board[1][1] = new CleanTile(1, 1);
+            GameBoard.board[1][1] = new CleanTile(1, 1);
         }
-        CleanTile tile = (CleanTile) gameBoard.board[1][1];
-        tile.countProximityMineCount(gameBoard.board);
+        CleanTile tile = (CleanTile) GameBoard.board[1][1];
+        tile.countProximityMineCount(GameBoard.board);
         assertEquals(mineCount, tile.proximityMineCount);
         assertTrue(tile.mineCountSet);
     }

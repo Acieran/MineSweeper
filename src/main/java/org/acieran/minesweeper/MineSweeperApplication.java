@@ -182,7 +182,7 @@ public class MineSweeperApplication extends Application {
                     if (tile instanceof CleanTile) {
                         //TODO Window Centering
                         openTile(tile);
-                        if (CleanTile.cleanTileCount == 0) {
+                        if (GameController.cleanTileCount == 0) {
                             gameBoard.setDisable(true);
                             GameController.stopGame(timerLabel);
                             mineCountLabel.setText("YOU WIN!!");
@@ -269,7 +269,6 @@ public class MineSweeperApplication extends Application {
                 }
                 GameController.cleanTileCount--;
                 System.out.println("GameController - " +GameController.cleanTileCount);
-                System.out.println("CleanTile - " + CleanTile.cleanTileCount);
             }
         }
     }
