@@ -82,6 +82,7 @@ class GameBoardTest {
                     assertTrue(((CleanTile) board.board[y][x]).mineCountSet);
             }
         }
+        assertEquals(2,board.mineList.size());
     }
 
 

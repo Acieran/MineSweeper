@@ -1,13 +1,48 @@
 package org.acieran.minesweeper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tile {
     protected boolean isOpen = false;
     protected int x;
     protected int y;
-    protected Mark mark = Mark.NONE;
 
-    public Tile(int x,int y)
-    {
+    protected enum MarkItem {
+        NONE,
+        MINE,
+        QUESTION;
+
+        //Making static List with MarkItems to not Initialize new Variable every time
+        private static List<MarkItem> items = init();
+
+        //Initializing static List with MarkItem Values
+        static List<MarkItem> init() {
+            List<MarkItem> items = new ArrayList<>();
+            for (int i = 0; i < MarkItem.values().length; i++) {
+                items.add(i, MarkItem.values()[i]);
+            }
+            return items;
+        }
+
+        //Method to return next item without size concerns
+        private static MarkItem next(MarkItem item) {
+            for (int i = 0; i < items.size(); i++) {
+                if (items.get(i).equals(item)) {
+                    return items.get((i + 1) % items.size());
+                }
+            }
+            try {
+                throw new Exception("Mark Not Found");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    protected MarkItem mark = MarkItem.NONE;
+
+    public Tile(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -16,19 +51,21 @@ public class Tile {
         return isOpen;
     }
 
-    public void Open()
+    public ArrayList<Tile> open()
     {
         isOpen = true;
+        ArrayList<Tile> tile = new ArrayList<>();
+        tile.add(this);
+        return tile;
     }
 
-    public Mark getMark() {
+    public MarkItem getMark() {
         return mark;
     }
 
-    //TODO Finish testMark for Tile and implement mark changing on left Click
-    public Mark Mark()
-    {
-        mark = mark.next();
+    //Get next Mark on Tile Score
+    public MarkItem mark() {
+        mark = MarkItem.next(mark);
         return mark;
     }
 }

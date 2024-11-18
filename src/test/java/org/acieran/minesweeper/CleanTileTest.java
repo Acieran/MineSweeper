@@ -2,12 +2,7 @@ package org.acieran.minesweeper;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +16,9 @@ class CleanTileTest {
 
     @Test
     void open() {
-        //TODO Finish testOpen for CleanTile
+        CleanTile t = new CleanTile(0, 0);
+      //  assertTrue(t.open());
+        assertTrue(t.isOpen);
     }
 
     @ParameterizedTest

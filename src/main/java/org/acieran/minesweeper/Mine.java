@@ -1,5 +1,8 @@
 package org.acieran.minesweeper;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Mine extends Tile{
     public Mine(int x, int y)
     {
@@ -7,8 +10,11 @@ public class Mine extends Tile{
     }
 
     @Override
-    public void Open() {
-        super.Open();
-        //TODO Create Open Class in CleanTile
+    public ArrayList<Tile> open() {
+        super.open();
+        GameController.working = false;
+        ArrayList<Tile> tile = new ArrayList<>();
+        tile.add(this);
+        return tile;
     }
 }

@@ -1,5 +1,6 @@
 package org.acieran.minesweeper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -7,7 +8,8 @@ public class GameBoard {
     protected int height;
     protected int width;
     protected int mineCount;
-    protected Tile[][] board;
+    protected static Tile[][] board;
+    protected ArrayList<Mine> mineList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {
@@ -68,6 +70,10 @@ public class GameBoard {
         this.mineCount = mineCount;
     }
 
+    public ArrayList<Mine> getMineList() {
+        return mineList;
+    }
+
     protected void setMines(int mineCount) {
         Random random = new Random();
 
@@ -79,6 +85,7 @@ public class GameBoard {
             if (!(board[y][x] instanceof Mine)) {
                 board[y][x] = new Mine(x, y);
                 minesPlaced++;
+                mineList.add(new Mine(x,y));
             }
         }
     }

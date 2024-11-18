@@ -8,12 +8,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController {
-    private static Timer timer;
-    private static int seconds;
+    protected static Timer timer;
+    protected static int seconds;
 
     protected static Difficulty selectedDifficulty;
 
     protected GameBoard game;
+    protected static boolean working;
+    protected static int cleanTileCount;
 
     public static void updateDifficulty(Difficulty newValue) {
         selectedDifficulty = newValue;
@@ -24,16 +26,24 @@ public class GameController {
         return selectedDifficulty;
     }
 
+    public static boolean isWorking() {
+        return working;
+    }
+
+    public static void setWorking(boolean working) {
+        GameController.working = working;
+    }
+
     @FXML
     protected void initialize(Label timerLabel) {
         // Initialize the game state
         game = new GameBoard(selectedDifficulty);
+        cleanTileCount = game.height * game.width - game.mineCount;
     }
 
     //Just Timer
     protected static void startTimer(Label timerLabel) {
         timer = new Timer();
-        seconds = 0;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -46,9 +56,17 @@ public class GameController {
     }
 
     //And Timer Stopper
-    protected static void stopTimer()
+    protected static void stopTimer(Label timerLabel)
     {
         if (timer != null)
             timer.cancel();
+        seconds = 0;
+        timerLabel.setText("Timer: " + seconds);
+    }
+
+    protected static void stopGame(Label timerLabel)
+    {
+        setWorking(false);
+        stopTimer(timerLabel);
     }
 }
