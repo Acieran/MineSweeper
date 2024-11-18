@@ -8,7 +8,7 @@ public class GameBoard {
     protected int height;
     protected int width;
     protected int mineCount;
-    protected static Tile[][] board;
+    protected Tile[][] board;
     protected ArrayList<Mine> mineList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
@@ -44,6 +44,15 @@ public class GameBoard {
         this.mineCount = mineCount;
         board = new Tile[height][width];
         setBoard();
+    }
+
+    public GameBoard(int height, int width, int mineCount, boolean setBoard) {
+        this.height = height;
+        this.width = width;
+        this.mineCount = mineCount;
+        board = new Tile[height][width];
+        if (setBoard)
+            setBoard();
     }
 
     public int getHeight() {
@@ -90,7 +99,7 @@ public class GameBoard {
         }
     }
 
-    private void setCleanTiles() {
+    protected void setCleanTiles() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (!(board[y][x] instanceof Mine)) {
