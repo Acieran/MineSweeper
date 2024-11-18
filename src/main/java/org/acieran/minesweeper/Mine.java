@@ -10,8 +10,8 @@ public class Mine extends Tile{
     }
 
     @Override
-    public ArrayList<Tile> open() {
-        super.open();
+    public ArrayList<Tile> open(GameBoard gameBoard) {
+        super.open(gameBoard);
         GameController.working = false;
         ArrayList<Tile> tile = new ArrayList<>();
         tile.add(this);

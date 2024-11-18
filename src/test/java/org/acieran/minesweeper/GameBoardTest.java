@@ -7,7 +7,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameBoardTest {
+class GameBoardTest
+{
 
     @Test
     void testGameBoardEasyDifficulty() {
@@ -59,6 +60,7 @@ class GameBoardTest {
             }
         }
         assertEquals(mines,minecount);
+        assertEquals(mines,board.mineCount);
     }
 
     @Test
@@ -73,7 +75,7 @@ class GameBoardTest {
     }
 
     @Test
-    void testSetMineCount()
+    void testCalculateProximityMines()
     {
         GameBoard board = new GameBoard(3,3,2);
         for (int y = 0; y < board.height; y++) {

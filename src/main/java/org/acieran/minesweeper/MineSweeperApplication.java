@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,12 +19,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class MineSweeperApplication extends Application {
 
     @FXML
-    private GridPane gameBoard;
+    private GridPane gridPane;
     @FXML
     protected Label timerLabel;
     @FXML
@@ -44,6 +42,7 @@ public class MineSweeperApplication extends Application {
     private double width;
 
     private static final GameController gameController = new GameController();
+    private GameBoard gameBoard;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -116,7 +115,7 @@ public class MineSweeperApplication extends Application {
         root.setPrefHeight(height);
         
         //Window Resize based on current resolution(not working on launch)
-        if (gameBoard.getScene()!=null)
+        if (gridPane.getScene()!=null)
         {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] devices = ge.getScreenDevices();
@@ -124,11 +123,11 @@ public class MineSweeperApplication extends Application {
             int monitorWidth = devices[0].getDisplayMode().getWidth();
             int monitorHeight = devices[0].getDisplayMode().getHeight();
 
-            gameBoard.getScene().getWindow().setWidth(width+20);
-            gameBoard.getScene().getWindow().setHeight(height+95);
+            gridPane.getScene().getWindow().setWidth(width+20);
+            gridPane.getScene().getWindow().setHeight(height+95);
             //Additional Window Centering
-            gameBoard.getScene().getWindow().setX((monitorWidth-(width+20))/2);
-            gameBoard.getScene().getWindow().setY((monitorHeight-(height+95))/2);
+            gridPane.getScene().getWindow().setX((monitorWidth-(width+20))/2);
+            gridPane.getScene().getWindow().setY((monitorHeight-(height+95))/2);
         }
     }
 
@@ -139,13 +138,14 @@ public class MineSweeperApplication extends Application {
 
     protected void newGame() {
         gameController.initialize(timerLabel); //Create Field and init GameControllers
-        gameBoard.setDisable(false);
+        gameBoard = gameController.game;
+        gridPane.setDisable(false); //Allow user to click on Grid
         GameController.stopTimer(timerLabel); // Stop the timer
-        mineCountLabel.setText("Mines: " + gameController.game.mineCount); // Update the mine count label
-        gameBoard.getChildren().clear(); // Clear the game board
-        width = gameController.game.width*60; //Set Width based on Field Width (60 is size of element in X)
-        height = gameController.game.height*40; //Set Height based on Field Height (40 is size of element in Y)
-        createGrid(gameController.game); //Create GridField Based on Field from GameController.gameField
+        mineCountLabel.setText("Mines: " + gameBoard.mineCount); // Update the mine count label
+        gridPane.getChildren().clear(); // Clear the game board
+        width = gameBoard.width*60; //Set Width based on Field Width (60 is size of element in X)
+        height = gameBoard.height*40; //Set Height based on Field Height (40 is size of element in Y)
+        createGrid(gameBoard); //Create GridField Based on Field from GameController.gameField
         sizeHandler(width,height); //Resize All Elements based on current size of Grid
     }
 
@@ -157,11 +157,11 @@ public class MineSweeperApplication extends Application {
         //Matrix cell creation based on gameController.GameField[][]
         for (int i = 0; i < board.height; i++)
         {
-            for (Tile t: GameBoard.board[i])
+            for (Tile t: board.board[i])
             {
                 Button cellButton = getButton(t);//Create and Set Up Button
 
-                gameBoard.add(cellButton, t.x, t.y);
+                gridPane.add(cellButton, t.x, t.y);
             }
         }
     }
@@ -170,20 +170,20 @@ public class MineSweeperApplication extends Application {
     private Button getButton(Tile t)
     {
         Button cellButton = new Button();
-        cellButton.setPrefWidth(width / gameController.game.width);
-        cellButton.setPrefHeight(height / gameController.game.height);
+        cellButton.setPrefWidth(width / gameBoard.width);
+        cellButton.setPrefHeight(height / gameBoard.height);
 
         cellButton.setOnMouseClicked(event -> {
             if (GameController.seconds == 0)
                 GameController.startTimer(timerLabel);
             if (event.getButton() == MouseButton.PRIMARY) {
-                ArrayList<Tile> tiles = t.open();
+                ArrayList<Tile> tiles = t.open(gameBoard);
                 for (Tile tile: tiles) {
                     if (tile instanceof CleanTile) {
                         //TODO Window Centering
                         openTile(tile);
                         if (GameController.cleanTileCount == 0) {
-                            gameBoard.setDisable(true);
+                            gridPane.setDisable(true);
                             GameController.stopGame(timerLabel);
                             mineCountLabel.setText("YOU WIN!!");
                             //TODO Flashy Win Interface
@@ -192,7 +192,7 @@ public class MineSweeperApplication extends Application {
                         cellButton.setText("\uD83D\uDCA5");
                         revealAllMines();
                         cellButton.setDisable(true);
-                        gameBoard.setDisable(true);
+                        gridPane.setDisable(true);
                         GameController.stopGame(timerLabel);
                     }
                 }
@@ -200,11 +200,11 @@ public class MineSweeperApplication extends Application {
                 Tile.MarkItem markItem = t.mark();
                 cellButton.setText(MARKMAP.get(markItem));
                 if (markItem.equals(Tile.MarkItem.MINE)) {
-                    gameController.game.mineCount--;
-                    mineCountLabel.setText("Mines: " + gameController.game.mineCount);
+                    gameBoard.mineCount--;
+                    mineCountLabel.setText("Mines: " + gameBoard.mineCount);
                 } else if (markItem.equals(Tile.MarkItem.QUESTION)) {
-                    gameController.game.mineCount++;
-                    mineCountLabel.setText("Mines: " + gameController.game.mineCount);
+                    gameBoard.mineCount++;
+                    mineCountLabel.setText("Mines: " + gameBoard.mineCount);
                 }
             }
         });
@@ -228,8 +228,8 @@ public class MineSweeperApplication extends Application {
 
     private void revealAllMines()
     {
-        for (Mine mine: gameController.game.mineList) {
-            for (Node node : gameBoard.getChildren()) {
+        for (Mine mine: gameBoard.mineList) {
+            for (Node node : gridPane.getChildren()) {
                 if (GridPane.getColumnIndex(node) == mine.x && GridPane.getRowIndex(node) == mine.y) {
                     Button cellButton = (Button) node;
                     cellButton.setText("\uD83D\uDCA3");
@@ -241,7 +241,7 @@ public class MineSweeperApplication extends Application {
 
     protected void openTile(Tile tile)
     {
-        for (Node node : gameBoard.getChildren()) {
+        for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == tile.x && GridPane.getRowIndex(node) == tile.y) {
                 Button cellButton = (Button) node;
                 CleanTile t = (CleanTile) tile;

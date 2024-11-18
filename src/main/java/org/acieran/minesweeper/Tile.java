@@ -51,7 +51,7 @@ public class Tile {
         return isOpen;
     }
 
-    public ArrayList<Tile> open()
+    public ArrayList<Tile> open(GameBoard gameBoard)
     {
         isOpen = true;
         ArrayList<Tile> tile = new ArrayList<>();
