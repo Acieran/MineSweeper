@@ -163,17 +163,23 @@
               <executable>jpackage</executable>
               <arguments>
                 <argument>--type</argument>
-                <argument>app-image</argument> <!-- or dmg, pkg, etc. -->
-                <argument>--input</argument>
-                <argument>${project.build.directory}</argument>
+                <argument>app-image</argument>
+<!--                <argument>&#45;&#45;input</argument>-->
+<!--                <argument>${project.build.directory}</argument>-->
                 <argument>--dest</argument>
-                <argument>dst</argument>
+                <argument>target/build</argument>
                 <argument>--name</argument>
                 <argument>${project.artifactId}</argument>
-                <argument>--main-jar</argument>
-                <argument>${project.build.finalName}.jar</argument>
-                <argument>--main-class</argument>
-                <argument>org.acieran.minesweeper.MineSweeperApplication</argument> <!-- your main class -->
+<!--                <argument>-p</argument>-->
+<!--                <argument>target/classes</argument>-->
+                <argument>--runtime-image</argument>
+                <argument>target/app</argument>
+                <argument>-m</argument>
+                <argument>org.acieran.minesweeper/org.acieran.minesweeper.MineSweeperApplication</argument>
+<!--                <argument>&#45;&#45;main-jar</argument>-->
+<!--                <argument>${project.build.finalName}.jar</argument>-->
+<!--                <argument>&#45;&#45;main-class</argument>-->
+<!--                <argument>org.acieran.minesweeper.MineSweeperApplication.java</argument> &lt;!&ndash; your main class &ndash;&gt;-->
                 <argument>--app-version</argument>
                 <argument>1.0</argument>
                 <argument>--icon</argument>
