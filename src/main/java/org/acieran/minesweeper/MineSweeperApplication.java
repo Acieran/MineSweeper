@@ -52,11 +52,11 @@ public class MineSweeperApplication extends Application {
         // Set the scene and show the stage
         Scene scene = new Scene(root);
 
-        // Get the URL of the CSS file (relative to your class)
-        String cssPath = MineSweeperApplication.class.getResource("minesweeper.css").toExternalForm();
-
-        // Add the stylesheet to the Scene
-        scene.getStylesheets().add(cssPath);
+//        // Get the URL of the CSS file (relative to your class)
+//        String cssPath = MineSweeperApplication.class.getResource("minesweeper.css").toExternalForm();
+//
+//        // Add the stylesheet to the Scene
+//        scene.getStylesheets().add(cssPath);
 
         stage.setTitle("Minesweeper");
         stage.setScene(scene);
@@ -137,8 +137,8 @@ public class MineSweeperApplication extends Application {
     }
 
     protected void newGame() {
-        gameController.initialize(timerLabel); //Create Field and init GameControllers
-        gameBoard = gameController.game;
+        GameController.initialize(); //Create Field and init GameControllers
+        gameBoard = GameController.game;
         gridPane.setDisable(false); //Allow user to click on Grid
         GameController.stopTimer(timerLabel); // Stop the timer
         mineCountLabel.setText("Mines: " + gameBoard.mineCount); // Update the mine count label
@@ -150,9 +150,9 @@ public class MineSweeperApplication extends Application {
     }
 
     private void createGrid(GameBoard board) {
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(1);
-        gridPane.setVgap(1);
+        //GridPane gridPane = new GridPane();
+        //gridPane.setHgap(1);
+        //gridPane.setVgap(1);
 
         //Matrix cell creation based on gameController.GameField[][]
         for (int i = 0; i < board.height; i++)
@@ -182,7 +182,7 @@ public class MineSweeperApplication extends Application {
                     if (tile instanceof CleanTile) {
                         //TODO Window Centering
                         openTile(tile);
-                        if (GameController.cleanTileCount == 0) {
+                        if (gameBoard.cleanTileList.isEmpty()) {
                             gridPane.setDisable(true);
                             GameController.stopGame(timerLabel);
                             mineCountLabel.setText("YOU WIN!!");
@@ -267,8 +267,8 @@ public class MineSweeperApplication extends Application {
                                         "-fx-opacity: 0.6;" +
                                         "-fx-background-color: rgba(212, 226, 240, 0.6)");
                 }
-                GameController.cleanTileCount--;
-                System.out.println("GameController - " +GameController.cleanTileCount);
+                if (gameBoard.cleanTileList.contains(tile))
+                    gameBoard.cleanTileList.remove(tile);
             }
         }
     }

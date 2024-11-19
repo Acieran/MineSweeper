@@ -24,10 +24,10 @@ class CleanTileTest
         ArrayList<CleanTile> tiles = new ArrayList<>();
         for (int i = 0; i < count; i++)
         {
-            tiles.add(new CleanTile(0, 5));
+            CleanTile cleanTile = new CleanTile(i, i+5);
+            tiles.add(cleanTile);
             assertNotNull(tiles.get(i));
-            assertEquals(tiles.get(i).x, 0);
-            assertEquals(tiles.get(i).y, 5);
+            assertEquals(cleanTile, tiles.get(i));
         }
     }
 

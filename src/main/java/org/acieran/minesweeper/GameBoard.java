@@ -11,6 +11,7 @@ public class GameBoard
     protected int mineCount;
     protected Tile[][] board;
     protected ArrayList<Mine> mineList = new ArrayList<>();
+    protected ArrayList<CleanTile> cleanTileList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {
@@ -104,7 +105,9 @@ public class GameBoard
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (!(board[y][x] instanceof Mine)) {
-                    board[y][x] = new CleanTile(x, y);
+                    CleanTile cleanTile = new CleanTile(x, y);
+                    board[y][x] = cleanTile;
+                    cleanTileList.add(cleanTile);
                 }
             }
         }

@@ -72,6 +72,7 @@ class GameBoardTest
                 assertNotEquals(Tile.class,board.board[y][x].getClass());
             }
         }
+        assertEquals(7,board.cleanTileList.size());
     }
 
     @Test

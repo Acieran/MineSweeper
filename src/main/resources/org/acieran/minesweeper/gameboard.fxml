@@ -15,7 +15,7 @@
 <children>
     <AnchorPane VBox.vgrow="ALWAYS">
         <children>
-            <GridPane gridLinesVisible="true" layoutX="3.0" layoutY="55.0" fx:id="gameBoard">
+            <GridPane gridLinesVisible="true" layoutX="3.0" layoutY="55.0" fx:id="gridPane">
             </GridPane>
             <ChoiceBox layoutY="14.0" prefWidth="150.0" fx:id="gameDifficulty">
             </ChoiceBox>
