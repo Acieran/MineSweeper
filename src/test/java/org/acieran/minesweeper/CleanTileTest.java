@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 class CleanTileTest
 {
-    //TODO Tests for all methods in CleanTile
+    //DONE Tests for all methods in CleanTile
     //DONE Constructor(testCleanTile)
     //DONE countProximityMineCount
-    //TODO Update Open
+    //DONE Update Open
 
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
@@ -55,30 +55,30 @@ class CleanTileTest
         assertThrows(IllegalArgumentException.class, () -> cleanTile.countProximityMineCount(null));
     }
 
-    //TODO Comments on open plz
     @TestFactory
     Collection<DynamicTest> testOpen() {
-        HashMap<Integer,ArrayList<CleanTile>> hashMap = createTestSource();
+        HashMap<Integer,ArrayList<CleanTile>> hashMap = createTestSource(); //
 
         List<DynamicTest> tests = new ArrayList<>();
         for (Map.Entry<Integer,ArrayList<CleanTile>> pair: hashMap.entrySet()) {
             String testName = "Test for " + pair.getKey();
             GameBoard gameBoard = new GameBoard(3, 3, 0, false);
-            gameBoard.setCleanTiles();
+            gameBoard.setCleanTiles(); //Creating a small free gameBoard
 
-            gameBoard.mineCount = pair.getKey();
+            gameBoard.mineCount = pair.getKey(); //setting up mines
             for (int x = 0; x < pair.getKey(); x++)
             {
+                //Setting up Mines on Top of Tiles per row starting from top left(example below)
                 gameBoard.board[2 - (x / 3)][2 - (x % 3)] = new Mine(2 - (x % 3), 2 - (x/ 3));
             }
-            gameBoard.calculateProximityMines();
+            gameBoard.calculateProximityMines(); //Calculate and invoke open function
             ArrayList<CleanTile> openTiles = new ArrayList<>();
             for (Tile tile: gameBoard.board[0][0].open(gameBoard))
             {
                 openTiles.add((CleanTile) tile);
             }
 
-            ArrayList<CleanTile> tilesThatShouldBeOpen = pair.getValue();
+            ArrayList<CleanTile> tilesThatShouldBeOpen = pair.getValue(); //Get Values from preset function
             Collections.sort(tilesThatShouldBeOpen);
             Collections.sort(openTiles);
 
@@ -91,6 +91,11 @@ class CleanTileTest
         return tests;
     }
 
+
+    //Creating Hash Map pairs equals Mines to CleanTilesList starting from 7 mines
+    //Because with 1 mine there should be only 1 cleanTile and then creating copies
+    //of original ArrayList after adding more CleanTiles(if we don't create copy)
+    //it will change the List in earlier cases
     private HashMap<Integer,ArrayList<CleanTile>> createTestSource()
     {
         ArrayList<CleanTile> tilesToOpen = new ArrayList<>();

@@ -2,7 +2,6 @@ package org.acieran.minesweeper;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,16 +53,16 @@ public class GameController {
     }
 
     //And Timer Stopper
-    protected static void stopTimer(Label timerLabel)
+    protected static void stopTimer()
     {
         if (timer != null)
             timer.cancel();
         seconds = 0;
     }
 
-    protected static void stopGame(Label timerLabel)
+    protected static void stopGame()
     {
         setWorking(false);
-        stopTimer(timerLabel);
+        stopTimer();
     }
 }

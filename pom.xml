@@ -38,48 +38,18 @@
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.11.3</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.opentest4j</groupId>
-          <artifactId>opentest4j</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.junit.platform</groupId>
-          <artifactId>junit-platform-commons</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apiguardian</groupId>
-          <artifactId>apiguardian-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
       <version>5.11.3</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.junit.platform</groupId>
-          <artifactId>junit-platform-engine</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apiguardian</groupId>
-          <artifactId>apiguardian-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <version>5.11.3</version>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apiguardian</groupId>
-          <artifactId>apiguardian-api</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 
@@ -164,22 +134,14 @@
               <arguments>
                 <argument>--type</argument>
                 <argument>app-image</argument>
-<!--                <argument>&#45;&#45;input</argument>-->
-<!--                <argument>${project.build.directory}</argument>-->
                 <argument>--dest</argument>
                 <argument>target/build</argument>
                 <argument>--name</argument>
                 <argument>${project.artifactId}</argument>
-<!--                <argument>-p</argument>-->
-<!--                <argument>target/classes</argument>-->
                 <argument>--runtime-image</argument>
                 <argument>target/app</argument>
                 <argument>-m</argument>
                 <argument>org.acieran.minesweeper/org.acieran.minesweeper.MineSweeperApplication</argument>
-<!--                <argument>&#45;&#45;main-jar</argument>-->
-<!--                <argument>${project.build.finalName}.jar</argument>-->
-<!--                <argument>&#45;&#45;main-class</argument>-->
-<!--                <argument>org.acieran.minesweeper.MineSweeperApplication.java</argument> &lt;!&ndash; your main class &ndash;&gt;-->
                 <argument>--app-version</argument>
                 <argument>1.0</argument>
                 <argument>--icon</argument>

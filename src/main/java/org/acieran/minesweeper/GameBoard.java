@@ -85,6 +85,7 @@ public class GameBoard
         return mineList;
     }
 
+    //
     protected void setMines(int mineCount) {
         Random random = new Random();
         this.mineCount = mineCount;
@@ -101,6 +102,7 @@ public class GameBoard
         }
     }
 
+    //
     protected void setCleanTiles() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -113,6 +115,7 @@ public class GameBoard
         }
     }
 
+    //Get smaller version of Board(Tiles around current one) for further calculation
     protected Tile[][] getSmallerBoard(int y, int x)
     {
         Tile[][] smallTile = new Tile[3][3];
@@ -140,6 +143,7 @@ public class GameBoard
         return smallTile;
     }
 
+    //Calculates Proximity Mine Count for Clean Tile based on Tiles around this one
     protected void calculateProximityMines() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {

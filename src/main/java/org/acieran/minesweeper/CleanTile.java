@@ -37,7 +37,9 @@ public class CleanTile extends Tile implements Comparable<CleanTile> {
     public boolean equals(Object obj)
     {
         if (this == obj) return true;
+
         if (obj == null) return false;
+        if (!(obj instanceof CleanTile)) return false;
         CleanTile cleanTile = (CleanTile) obj;
         return x == cleanTile.x && y == cleanTile.y;
     }

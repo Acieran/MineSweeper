@@ -14,7 +14,7 @@ public class Tile {
         QUESTION;
 
         //Making static List with MarkItems to not Initialize new Variable every time
-        private static List<MarkItem> items = init();
+        private static final List<MarkItem> items = init();
 
         //Initializing static List with MarkItem Values
         static List<MarkItem> init() {
@@ -51,7 +51,7 @@ public class Tile {
         return isOpen;
     }
 
-    public ArrayList<Tile> open(GameBoard gameBoard)
+    protected ArrayList<Tile> open(GameBoard gameBoard)
     {
         isOpen = true;
         ArrayList<Tile> tile = new ArrayList<>();
@@ -59,12 +59,12 @@ public class Tile {
         return tile;
     }
 
-    public MarkItem getMark() {
+    protected MarkItem getMark() {
         return mark;
     }
 
     //Get next Mark on Tile Score
-    public MarkItem mark() {
+    protected MarkItem mark() {
         mark = MarkItem.next(mark);
         return mark;
     }

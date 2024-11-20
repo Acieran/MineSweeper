@@ -1,6 +1,5 @@
 package org.acieran.minesweeper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Mine extends Tile{
