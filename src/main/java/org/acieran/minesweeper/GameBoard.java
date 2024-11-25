@@ -114,18 +114,18 @@ public class GameBoard {
         Tile[][] smallTile = new Tile[3][3];
         for (int i = 0; i < 3; i++) {
             if ((y==0 && i == 0) || (y==(height-1) && i == 2))
-                Arrays.fill(smallTile[i],CleanTile.nullTile);
+                Arrays.fill(smallTile[i],CleanTile.getNullTile());
             else
             {
                 if (x==0){
-                    smallTile[i][0] = CleanTile.nullTile;
+                    smallTile[i][0] = CleanTile.getNullTile();
                     smallTile[i][1] = board[y-1+i][x];
                     smallTile[i][2] = board[y-1+i][x+1];
                 }
                 else if (x==width-1) {
                     smallTile[i][0] = board[y-1+i][x-1];
                     smallTile[i][1] = board[y-1+i][x];
-                    smallTile[i][2] = CleanTile.nullTile;
+                    smallTile[i][2] = CleanTile.getNullTile();
                 }
                 else
                 {

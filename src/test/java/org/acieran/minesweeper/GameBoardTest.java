@@ -79,7 +79,7 @@ class GameBoardTest {
         for (int y = 0; y < board.height; y++) {
             for (int x = 0; x < board.width; x++) {
                 if (board.board[y][x] instanceof CleanTile)
-                    assertTrue(((CleanTile) board.board[y][x]).mineCountSet);
+                    assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
             }
         }
         assertEquals(2,board.mineList.size());

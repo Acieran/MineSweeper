@@ -21,13 +21,13 @@ class TileTest
         switch (markTimes)
         {
             case 1:
-                assertEquals(Tile.MarkItem.MINE,tile.mark);
+                assertEquals(Tile.MarkItem.MINE,tile.getMark());
                 break;
             case 2:
-                assertEquals(Tile.MarkItem.QUESTION,tile.mark);
+                assertEquals(Tile.MarkItem.QUESTION,tile.getMark());
                 break;
             case 3:
-                assertEquals(Tile.MarkItem.NONE,tile.mark);
+                assertEquals(Tile.MarkItem.NONE,tile.getMark());
                 break;
         }
     }

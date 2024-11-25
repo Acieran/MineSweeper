@@ -20,8 +20,8 @@ class CleanTileTest
         for (int i = 0; i < count; i++) {
             tiles.add(new CleanTile(0,5));
             assertNotNull(tiles.get(i));
-            assertEquals(tiles.get(i).x,0);
-            assertEquals(tiles.get(i).y,5);
+            assertEquals(tiles.get(i).getX(),0);
+            assertEquals(tiles.get(i).getY(),5);
         }
     }
     //TODO Tests for all methods in CleanTile
@@ -62,7 +62,7 @@ class CleanTileTest
         }
         CleanTile tile = (CleanTile) GameBoard.board[1][1];
         tile.countProximityMineCount(GameBoard.board);
-        assertEquals(mineCount, tile.proximityMineCount);
-        assertTrue(tile.mineCountSet);
+        assertEquals(mineCount, tile.getProximityMineCount());
+        assertTrue(tile.isMineCountSet());
     }
 }

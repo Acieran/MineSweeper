@@ -161,7 +161,7 @@ public class MineSweeperApplication extends Application {
             {
                 Button cellButton = getButton(t);//Create and Set Up Button
 
-                gameBoard.add(cellButton, t.x, t.y);
+                gameBoard.add(cellButton, t.getX(), t.getY());
             }
         }
     }
@@ -230,7 +230,7 @@ public class MineSweeperApplication extends Application {
     {
         for (Mine mine: gameController.game.mineList) {
             for (Node node : gameBoard.getChildren()) {
-                if (GridPane.getColumnIndex(node) == mine.x && GridPane.getRowIndex(node) == mine.y) {
+                if (GridPane.getColumnIndex(node) == mine.getX() && GridPane.getRowIndex(node) == mine.getY()) {
                     Button cellButton = (Button) node;
                     cellButton.setText("\uD83D\uDCA3");
                     cellButton.setDisable(true);
@@ -242,7 +242,7 @@ public class MineSweeperApplication extends Application {
     protected void openTile(Tile tile)
     {
         for (Node node : gameBoard.getChildren()) {
-            if (GridPane.getColumnIndex(node) == tile.x && GridPane.getRowIndex(node) == tile.y) {
+            if (GridPane.getColumnIndex(node) == tile.getX() && GridPane.getRowIndex(node) == tile.getY()) {
                 Button cellButton = (Button) node;
                 CleanTile t = (CleanTile) tile;
                 cellButton.setDisable(true);
@@ -259,9 +259,9 @@ public class MineSweeperApplication extends Application {
                 cellButton.setBackground(cellButton.getBackground());
                 cellButton.setStyle("-fx-opacity: 0.6; " +
                         "-fx-background-color: rgba(212, 226, 240, 0.6)");
-                if (t.proximityMineCount > 0) {
-                    cellButton.setText(t.proximityMineCount + "");
-                    cellButton.setStyle("-fx-text-fill: " + COLORPICKER.get(t.proximityMineCount) + ";" +
+                if (t.getProximityMineCount() > 0) {
+                    cellButton.setText(t.getProximityMineCount() + "");
+                    cellButton.setStyle("-fx-text-fill: " + COLORPICKER.get(t.getProximityMineCount()) + ";" +
                                         "-fx-font-size: 16;" +
                                         "-fx-font-weight: bold;" +
                                         "-fx-opacity: 0.6;" +

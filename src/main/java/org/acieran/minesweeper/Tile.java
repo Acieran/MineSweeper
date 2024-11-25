@@ -4,17 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
-    protected boolean isOpen = false;
-    protected int x;
-    protected int y;
+    private final int x;
+    private final int y;
 
-    protected enum MarkItem {
+    public enum MarkItem {
         NONE,
         MINE,
         QUESTION;
 
         //Making static List with MarkItems to not Initialize new Variable every time
-        private static List<MarkItem> items = init();
+        private static final List<MarkItem> items = init();
 
         //Initializing static List with MarkItem Values
         static List<MarkItem> init() {
@@ -40,20 +39,23 @@ public class Tile {
         }
     }
 
-    protected MarkItem mark = MarkItem.NONE;
+    private MarkItem mark = MarkItem.NONE;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public boolean isOpen() {
-        return isOpen;
+    public int getY() {
+        return y;
+    }
+
+    public int getX() {
+        return x;
     }
 
     public ArrayList<Tile> open()
     {
-        isOpen = true;
         ArrayList<Tile> tile = new ArrayList<>();
         tile.add(this);
         return tile;
