@@ -42,8 +42,8 @@ class CleanTileTest
             mineCount--;
             gameBoard.board[1][1] = new CleanTile(1, 1);
         }
-        CleanTile tile = (CleanTile) GameBoard.board[1][1];
-        tile.countProximityMineCount(GameBoard.board);
+        CleanTile tile = (CleanTile) gameBoard.board[1][1];
+        tile.countProximityMineCount(gameBoard.board);
         assertEquals(mineCount, tile.getProximityMineCount());
         assertTrue(tile.isMineCountSet());
     }

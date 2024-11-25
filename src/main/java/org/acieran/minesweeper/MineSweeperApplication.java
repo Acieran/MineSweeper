@@ -240,7 +240,7 @@ public class MineSweeperApplication extends Application {
                                     "-fx-background-color: rgba(212, 226, 240, 0.6)");
                 if (t.getProximityMineCount() > 0) { //If there are nearby mines set text to Number of Mines nearby
                     cellButton.setText(t.getProximityMineCount() + "");  //Recolor it, increase font
-                    cellButton.setStyle("-fx-text-fill: " + COLORPICKER.get(t.proximityMineCount) + ";" +
+                    cellButton.setStyle("-fx-text-fill: " + COLORPICKER.get(t.getProximityMineCount()) + ";" +
                                         "-fx-font-size: 16;" +
                                         "-fx-font-weight: bold;" +
                                         "-fx-opacity: 0.6;" +   //Repeat of above actions, because Style if replaced completely
