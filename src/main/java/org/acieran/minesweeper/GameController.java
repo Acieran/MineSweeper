@@ -1,9 +1,7 @@
 package org.acieran.minesweeper;
 
 import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,7 +11,7 @@ public class GameController {
 
     protected static Difficulty selectedDifficulty;
 
-    protected GameBoard game;
+    protected static GameBoard game;
     protected static boolean working;
     protected static int cleanTileCount;
 
@@ -34,8 +32,7 @@ public class GameController {
         GameController.working = working;
     }
 
-    @FXML
-    protected void initialize(Label timerLabel) {
+    protected static void initialize() {
         // Initialize the game state
         game = new GameBoard(selectedDifficulty);
         cleanTileCount = game.height * game.width - game.mineCount;
@@ -56,17 +53,16 @@ public class GameController {
     }
 
     //And Timer Stopper
-    protected static void stopTimer(Label timerLabel)
+    protected static void stopTimer()
     {
         if (timer != null)
             timer.cancel();
         seconds = 0;
-        timerLabel.setText("Timer: " + seconds);
     }
 
-    protected static void stopGame(Label timerLabel)
+    protected static void stopGame()
     {
         setWorking(false);
-        stopTimer(timerLabel);
+        stopTimer();
     }
 }

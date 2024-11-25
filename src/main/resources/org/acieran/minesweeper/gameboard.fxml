@@ -12,17 +12,13 @@
       xmlns="http://javafx.com/javafx"
       fx:id="root"
       alignment="CENTER">
-<children>
     <AnchorPane VBox.vgrow="ALWAYS">
-        <children>
-            <GridPane gridLinesVisible="true" layoutX="3.0" layoutY="55.0" fx:id="gameBoard">
-            </GridPane>
-            <ChoiceBox layoutY="14.0" prefWidth="150.0" fx:id="gameDifficulty">
-            </ChoiceBox>
-            <Label layoutY="18.0" text="Timer: 5" fx:id="timerLabel"/>
-            <Label layoutY="18.0" text="Mines: " fx:id="mineCountLabel"/>
-            <Button layoutY="14.0" mnemonicParsing="false" text="Restart" fx:id="restartButton"/>
-        </children>
+        <GridPane gridLinesVisible="true" layoutX="3.0" layoutY="55.0" fx:id="gridPane">
+        </GridPane>
+        <ChoiceBox layoutY="14.0" prefWidth="150.0" fx:id="gameDifficulty">
+        </ChoiceBox>
+        <Label layoutY="18.0" text="Timer: 5" fx:id="timerLabel"/>
+        <Label layoutY="18.0" text="Mines: " fx:id="mineCountLabel"/>
+        <Button layoutY="14.0" mnemonicParsing="false" text="Restart" fx:id="restartButton"/>
     </AnchorPane>
-</children>
 </VBox>

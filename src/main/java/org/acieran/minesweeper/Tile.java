@@ -54,19 +54,19 @@ public class Tile {
         return x;
     }
 
-    public ArrayList<Tile> open()
+    protected ArrayList<Tile> open(GameBoard gameBoard)
     {
         ArrayList<Tile> tile = new ArrayList<>();
         tile.add(this);
         return tile;
     }
 
-    public MarkItem getMark() {
+    protected MarkItem getMark() {
         return mark;
     }
 
     //Get next Mark on Tile Score
-    public MarkItem mark() {
+    protected MarkItem mark() {
         mark = MarkItem.next(mark);
         return mark;
     }

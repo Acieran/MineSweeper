@@ -7,7 +7,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameBoardTest {
+class GameBoardTest
+{
 
     @Test
     void testGameBoardEasyDifficulty() {
@@ -47,9 +48,9 @@ class GameBoardTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0,3,5,7})
+    @ValueSource(ints = {0,5,10,40,99})
     void testSetMines(int mines) {
-        GameBoard board = new GameBoard(3, 3, mines); // Create a board with no mines
+        GameBoard board = new GameBoard(30, 30, mines); // Create a board with no mines
         int minecount = 0;
         for (int y = 0; y < board.height; y++) {
             for (int x = 0; x < board.width; x++) {
@@ -59,6 +60,8 @@ class GameBoardTest {
             }
         }
         assertEquals(mines,minecount);
+        assertEquals(mines,board.mineCount);
+        assertEquals(mines,board.mineList.size());
     }
 
     @Test
@@ -70,6 +73,7 @@ class GameBoardTest {
                 assertNotEquals(Tile.class,board.board[y][x].getClass());
             }
         }
+        assertEquals(7,board.cleanTileList.size());
     }
 
     @Test
@@ -116,4 +120,16 @@ class GameBoardTest {
         }
     }
 
+    @Test
+    void testCalculateProximityMines()
+    {
+        GameBoard board = new GameBoard(3,3,2);
+        for (int y = 0; y < board.height; y++) {
+            for (int x = 0; x < board.width; x++) {
+                if (board.board[y][x] instanceof CleanTile)
+                    assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
+            }
+        }
+        assertEquals(2,board.mineList.size());
+    }
 }

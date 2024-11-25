@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class GameBoard {
-    protected static int height;
-    protected static int width;
-    protected static int mineCount;
-    protected static Tile[][] board;
-    protected static ArrayList<Mine> mineList = new ArrayList<>();
+public class GameBoard
+{
+    protected int height;
+    protected int width;
+    protected int mineCount;
+    protected Tile[][] board;
+    protected ArrayList<Mine> mineList = new ArrayList<>();
+    protected ArrayList<CleanTile> cleanTileList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {
@@ -83,9 +85,10 @@ public class GameBoard {
         return mineList;
     }
 
+    //
     protected void setMines(int mineCount) {
         Random random = new Random();
-
+        this.mineCount = mineCount;
         int minesPlaced = 0;
         while (minesPlaced < mineCount) {
             int y = random.nextInt(height);
@@ -99,16 +102,20 @@ public class GameBoard {
         }
     }
 
+    //
     protected void setCleanTiles() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (!(board[y][x] instanceof Mine)) {
-                    board[y][x] = new CleanTile(x, y);
+                    CleanTile cleanTile = new CleanTile(x, y);
+                    board[y][x] = cleanTile;
+                    cleanTileList.add(cleanTile);
                 }
             }
         }
     }
 
+    //Get smaller version of Board(Tiles around current one) for further calculation
     protected Tile[][] getSmallerBoard(int y, int x)
     {
         Tile[][] smallTile = new Tile[3][3];
@@ -136,7 +143,8 @@ public class GameBoard {
         return smallTile;
     }
 
-    protected void setMineCount() {
+    //Calculates Proximity Mine Count for Clean Tile based on Tiles around this one
+    protected void calculateProximityMines() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (board[y][x] instanceof CleanTile) {
@@ -149,6 +157,6 @@ public class GameBoard {
     private void setBoard() {
         setMines(mineCount);
         setCleanTiles();
-        setMineCount();
+        calculateProximityMines();
     }
 }

@@ -2,7 +2,7 @@ package org.acieran.minesweeper;
 
 import java.util.ArrayList;
 
-public class CleanTile extends Tile{
+public class CleanTile extends Tile implements Comparable<CleanTile>{
     private int proximityMineCount;
     private boolean mineCountSet;
     private final static CleanTile nullTile = new CleanTile(-1,-1);
@@ -25,6 +25,34 @@ public class CleanTile extends Tile{
         return nullTile;
     }
 
+    @Override
+    public int compareTo(CleanTile other) {
+        // Sort by x-coordinate, then y-coordinate
+        int compareX = Integer.compare(this.getX(), other.getX());
+        if (compareX != 0) {
+            return compareX;
+        }
+        return Integer.compare(this.getY(), other.getY());
+    }
+
+    @Override
+    public String toString()
+    {
+
+        return this.getClass() + " x - " + this.getX() + " y - " + this.getY() ;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+
+        if (obj == null) return false;
+        if (!(obj instanceof CleanTile)) return false;
+        CleanTile cleanTile = (CleanTile) obj;
+        return getX() == cleanTile.getX() && getY() == cleanTile.getY();
+    }
+
     protected void countProximityMineCount(Tile[][] smalltile) {
         if (smalltile == null)
             throw new IllegalArgumentException("Передано пустое поле для подсчета мин");
@@ -41,36 +69,41 @@ public class CleanTile extends Tile{
     }
 
     @Override
-    public ArrayList<Tile> open() {
-        super.open();
+    public ArrayList<Tile> open(GameBoard gameBoard) {
+        super.open(gameBoard);
         ArrayList <Tile> tiles = new ArrayList<>();
         tiles.add(this);
         if (proximityMineCount == 0) {
-            if (getY() - 1 >= 0)
-                tiles = ((CleanTile) GameBoard.board[getY() - 1][getX()]).openProximity(tiles);
-            if (getY() + 1 < GameBoard.board.length)
-                tiles = ((CleanTile) GameBoard.board[getY() + 1][getX()]).openProximity(tiles);
-            if (getX() - 1 >= 0)
-                tiles = ((CleanTile) GameBoard.board[getY()][getX() - 1]).openProximity(tiles);
-            if (getX() + 1 < GameBoard.board[getY()].length)
-                tiles = ((CleanTile) GameBoard.board[getY()][getX() + 1]).openProximity(tiles);
+            for (int yTemp  = getY() - 1; yTemp  <= getY() + 1; yTemp++)
+            {
+                for (int xTemp = getX() - 1; xTemp <= getX() + 1; xTemp++)
+                {
+                    if (yTemp >= 0 && yTemp < gameBoard.board.length && xTemp >= 0 && xTemp < gameBoard.board[yTemp].length && (xTemp != getX() || yTemp != getY()))
+                    {
+                        tiles = ((CleanTile) gameBoard.board[yTemp][xTemp]).openProximity(gameBoard, tiles);
+                    }
+                }
+            }
         }
         return tiles;
     }
 
-    private ArrayList<Tile> openProximity(ArrayList<Tile> tiles)
+    private ArrayList<Tile> openProximity(GameBoard gameBoard,ArrayList<Tile> tiles)
     {
-        tiles.add(this);
+        if (!(tiles.contains(gameBoard.board[getY()][getX()])))
+            tiles.add(this);
         if (proximityMineCount == 0)
         {
-            if (getY() - 1 >= 0 && !(tiles.contains(GameBoard.board[getY() - 1][getX()])))
-                tiles = ((CleanTile) GameBoard.board[getY() - 1][getX()]).openProximity(tiles);
-            if (getY() + 1 < GameBoard.board.length && !(tiles.contains(GameBoard.board[getY() + 1][getX()])))
-                tiles = ((CleanTile) GameBoard.board[getY() + 1][getX()]).openProximity(tiles);
-            if (getX() - 1 >= 0 && !(tiles.contains(GameBoard.board[getY()][getX() - 1])))
-                tiles = ((CleanTile) GameBoard.board[getY()][getX() - 1]).openProximity(tiles);
-            if (getX() + 1 < GameBoard.board[getY()].length && !(tiles.contains(GameBoard.board[getY()][getX() + 1])))
-                tiles = ((CleanTile) GameBoard.board[getY()][getX() + 1]).openProximity(tiles);
+            for (int yTemp  = getY() - 1; yTemp  <= getY() + 1; yTemp++)
+            {
+                for (int xTemp = getX() - 1; xTemp <= getX() + 1; xTemp++)
+                {
+                    if (yTemp >= 0 && yTemp < gameBoard.board.length && xTemp >= 0 && xTemp < gameBoard.board[yTemp].length && (xTemp != x || yTemp != y) && !(tiles.contains(gameBoard.board[yTemp][xTemp])))
+                    {
+                        tiles = ((CleanTile) gameBoard.board[yTemp][xTemp]).openProximity(gameBoard, tiles);
+                    }
+                }
+            }
         }
         return tiles;
     }
