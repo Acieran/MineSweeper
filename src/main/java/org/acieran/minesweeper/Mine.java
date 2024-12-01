@@ -11,9 +11,18 @@ public class Mine extends Tile{
     @Override
     public ArrayList<Tile> open(GameBoard gameBoard) {
         super.open(gameBoard);
-        GameController.working = false;
         ArrayList<Tile> tile = new ArrayList<>();
         tile.add(this);
         return tile;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj) return true;
+
+        if (obj == null) return false;
+        if (!(obj instanceof Mine mine)) return false;
+        return getX() == mine.getX() && getY() == mine.getY();
     }
 }

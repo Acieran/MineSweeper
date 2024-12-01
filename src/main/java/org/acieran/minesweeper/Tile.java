@@ -3,7 +3,7 @@ package org.acieran.minesweeper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile {
+public class Tile implements CanBeOpened,CanBeMarked{
     private final int x;
     private final int y;
 
@@ -54,19 +54,19 @@ public class Tile {
         return x;
     }
 
-    protected ArrayList<Tile> open(GameBoard gameBoard)
+    public ArrayList<Tile> open(GameBoard gameBoard)
     {
         ArrayList<Tile> tile = new ArrayList<>();
         tile.add(this);
         return tile;
     }
 
-    protected MarkItem getMark() {
+    public MarkItem getMark() {
         return mark;
     }
 
     //Get next Mark on Tile Score
-    protected MarkItem mark() {
+    public MarkItem mark() {
         mark = MarkItem.next(mark);
         return mark;
     }

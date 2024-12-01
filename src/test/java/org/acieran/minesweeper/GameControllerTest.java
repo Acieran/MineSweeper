@@ -22,6 +22,6 @@ class GameControllerTest
     void testInitialize(Difficulty difficulty, int expectedResult) {
         GameController.updateDifficulty(difficulty);
         GameController.initialize();
-        assertEquals(expectedResult, GameController.cleanTileCount);
+        assertEquals(expectedResult, GameController.getCleanTileCount());
     }
 }

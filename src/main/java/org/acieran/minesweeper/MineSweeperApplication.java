@@ -25,7 +25,7 @@ public class MineSweeperApplication extends Application {
     @FXML
     private GridPane gridPane;
     @FXML
-    protected Label timerLabel;
+    private Label timerLabel;
     @FXML
     private ChoiceBox<Difficulty> gameDifficulty;
     @FXML
@@ -79,9 +79,7 @@ public class MineSweeperApplication extends Application {
         updateDifficulty(Difficulty.Easy);
         //Adding a Listener for dynamic updates
         gameDifficulty.getSelectionModel().selectedItemProperty().addListener(
-                (_, _, newValue) -> {
-                    updateDifficulty(newValue);
-                }
+                (_, _, newValue) -> updateDifficulty(newValue)
         );
     }
 
@@ -131,7 +129,7 @@ public class MineSweeperApplication extends Application {
 
     protected void newGame() {
         GameController.initialize(); //Create Field and init GameControllers
-        gameBoard = GameController.game;
+        gameBoard = GameController.getGame();
         gridPane.setDisable(false); //Allow user to click on Grid
         GameController.stopTimer(); // Stop the timer
         mineCountLabel.setText("Mines: " + gameBoard.getMineCount()); // Update the mine count label
@@ -147,7 +145,7 @@ public class MineSweeperApplication extends Application {
         //Matrix cell creation based on gameController.GameField[][]
         for (int i = 0; i < board.getHeight(); i++)
         {
-            for (Tile t: board.board[i])
+            for (Tile t: board.getBoard()[i])
             {
                 Button cellButton = getButton(t);//Create and Set Up Button
 
@@ -164,7 +162,7 @@ public class MineSweeperApplication extends Application {
         cellButton.setPrefHeight(height / gameBoard.getHeight());
 
         cellButton.setOnMouseClicked(event -> { //Events after the Mouse is clicked
-            if (GameController.seconds == 0) //Start timer if it wasn't started
+            if (GameController.getSeconds() == 0) //Start timer if it wasn't started
                 GameController.startTimer(timerLabel);
             if (event.getButton() == MouseButton.PRIMARY) { //If pressed Left Mouse Button
                 ArrayList<Tile> tiles = t.open(gameBoard); //Get List of Tiles than needs to be Opened
@@ -176,7 +174,6 @@ public class MineSweeperApplication extends Application {
                             gridPane.setDisable(true);
                             GameController.stopGame();    //Stop game
                             mineCountLabel.setText("YOU WIN!!");
-                            //TODO Flashy Win Interface
                         }
                     } else if (tile instanceof Mine){   //Choice if Mine Opened
                         cellButton.setText("\uD83D\uDCA5"); //Set text to Mine icon
@@ -203,7 +200,6 @@ public class MineSweeperApplication extends Application {
     //Method for setting up icons and colors
     private void initFinals()
     {
-        //TODO Recoloring
         MARKMAP.put(Tile.MarkItem.NONE,"");
         MARKMAP.put(Tile.MarkItem.MINE,"\uD83D\uDCA3");
         MARKMAP.put(Tile.MarkItem.QUESTION,"?");

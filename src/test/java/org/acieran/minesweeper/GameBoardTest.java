@@ -82,8 +82,8 @@ class GameBoardTest
         GameBoard board = new GameBoard(3,3,2);
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
-                if (board.board[y][x] instanceof CleanTile)
-                    assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
+                if (board.getBoard()[y][x] instanceof CleanTile)
+                    assertTrue(((CleanTile) board.getBoard()[y][x]).isMineCountSet());
             }
         }
         assertEquals(2,board.getMineList().size());
@@ -104,7 +104,7 @@ class GameBoardTest
     })
     void testGetSmallerBoard(int y, int x, int mineDifY, int mineDifX) {
         GameBoard board = new GameBoard(5, 5, 1); // 5x5 board with one mine
-        board.board[y + mineDifY][x + mineDifX] = new Mine(x + mineDifX, y + mineDifY);
+        board.getBoard()[y + mineDifY][x + mineDifX] = new Mine(x + mineDifX, y + mineDifY);
 
         Tile[][] smallerBoard = board.getSmallerBoard(y, x);
         assertNotNull(smallerBoard);
@@ -113,9 +113,9 @@ class GameBoardTest
         for (int smallY = 0, boardY = y - 1; smallY < 3; smallY++, boardY++) {
             for (int smallX = 0, boardX = x - 1; smallX < 3; smallX++, boardX++) {
                 if (boardY < 0 || boardY >= board.getHeight() || boardX < 0 || boardX >= board.getWidth()) {
-                    assertEquals(smallerBoard[smallY][smallX].getClass(), CleanTile.class);
+                    assertEquals(CleanTile.class, smallerBoard[smallY][smallX].getClass());
                 } else
-                    assertEquals(smallerBoard[smallY][smallX].getClass(), board.board[boardY][boardX].getClass());
+                    assertEquals(smallerBoard[smallY][smallX].getClass(), board.getBoard()[boardY][boardX].getClass());
             }
         }
     }
@@ -126,8 +126,8 @@ class GameBoardTest
         GameBoard board = new GameBoard(3,3,2);
         for (int y = 0; y < board.getHeight(); y++) {
             for (int x = 0; x < board.getWidth(); x++) {
-                if (board.board[y][x] instanceof CleanTile)
-                    assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
+                if (board.getBoard()[y][x] instanceof CleanTile)
+                    assertTrue(((CleanTile) board.getBoard()[y][x]).isMineCountSet());
             }
         }
         assertEquals(2,board.getMineList().size());

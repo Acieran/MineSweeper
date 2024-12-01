@@ -9,9 +9,9 @@ public class GameBoard
     private int height;
     private int width;
     private int mineCount;
-    protected Tile[][] board;
-    private ArrayList<Mine> mineList = new ArrayList<>();
-    private ArrayList<CleanTile> cleanTileList = new ArrayList<>();
+    private Tile[][] board;
+    private final ArrayList<Mine> mineList = new ArrayList<>();
+    private final ArrayList<CleanTile> cleanTileList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {
@@ -69,16 +69,8 @@ public class GameBoard
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
     public int getWidth() {
         return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
     }
 
     public int getMineCount() {

@@ -6,30 +6,30 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameController {
-    protected static Timer timer;
-    protected static int seconds;
+    private static Timer timer;
+    private static int seconds;
 
-    protected static Difficulty selectedDifficulty;
-
-    protected static GameBoard game;
-    protected static boolean working;
-    protected static int cleanTileCount;
+    private static Difficulty selectedDifficulty;
+    private static GameBoard game;
+    private static int cleanTileCount;
 
     public static void updateDifficulty(Difficulty newValue) {
         selectedDifficulty = newValue;
     }
 
-    public static Difficulty getSelectedDifficulty()
+    public static int getSeconds()
     {
-        return selectedDifficulty;
+        return seconds;
     }
 
-    public static boolean isWorking() {
-        return working;
+    public static GameBoard getGame()
+    {
+        return game;
     }
 
-    public static void setWorking(boolean working) {
-        GameController.working = working;
+    public static int getCleanTileCount()
+    {
+        return cleanTileCount;
     }
 
     protected static void initialize() {
@@ -62,7 +62,6 @@ public class GameController {
 
     protected static void stopGame()
     {
-        setWorking(false);
         stopTimer();
     }
 }

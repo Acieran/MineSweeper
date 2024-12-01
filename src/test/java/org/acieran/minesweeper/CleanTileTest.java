@@ -82,9 +82,7 @@ class CleanTileTest
             Collections.sort(tilesThatShouldBeOpen);
             Collections.sort(openTiles);
 
-            Executable testExecutable = () -> {
-                assertEquals(pair.getValue(),openTiles);
-            };
+            Executable testExecutable = () -> assertEquals(pair.getValue(),openTiles);
             DynamicTest dynamicTest = dynamicTest(testName, testExecutable);
             tests.add(dynamicTest);
         }

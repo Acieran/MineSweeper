@@ -48,8 +48,7 @@ public class CleanTile extends Tile implements Comparable<CleanTile>{
         if (this == obj) return true;
 
         if (obj == null) return false;
-        if (!(obj instanceof CleanTile)) return false;
-        CleanTile cleanTile = (CleanTile) obj;
+        if (!(obj instanceof CleanTile cleanTile)) return false;
         return getX() == cleanTile.getX() && getY() == cleanTile.getY();
     }
 
@@ -68,7 +67,6 @@ public class CleanTile extends Tile implements Comparable<CleanTile>{
         mineCountSet = true;
     }
 
-    @Override
     public ArrayList<Tile> open(GameBoard gameBoard) {
         super.open(gameBoard);
         ArrayList <Tile> tiles = new ArrayList<>();
