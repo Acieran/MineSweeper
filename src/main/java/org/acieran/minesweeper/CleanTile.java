@@ -78,9 +78,9 @@ public class CleanTile extends Tile implements Comparable<CleanTile>{
             {
                 for (int xTemp = getX() - 1; xTemp <= getX() + 1; xTemp++)
                 {
-                    if (yTemp >= 0 && yTemp < gameBoard.board.length && xTemp >= 0 && xTemp < gameBoard.board[yTemp].length && (xTemp != getX() || yTemp != getY()))
+                    if (yTemp >= 0 && yTemp < gameBoard.getBoard().length && xTemp >= 0 && xTemp < gameBoard.getBoard()[yTemp].length && (xTemp != getX() || yTemp != getY()))
                     {
-                        tiles = ((CleanTile) gameBoard.board[yTemp][xTemp]).openProximity(gameBoard, tiles);
+                        tiles = ((CleanTile) gameBoard.getBoard()[yTemp][xTemp]).openProximity(gameBoard, tiles);
                     }
                 }
             }
@@ -90,7 +90,7 @@ public class CleanTile extends Tile implements Comparable<CleanTile>{
 
     private ArrayList<Tile> openProximity(GameBoard gameBoard,ArrayList<Tile> tiles)
     {
-        if (!(tiles.contains(gameBoard.board[getY()][getX()])))
+        if (!(tiles.contains(gameBoard.getBoard()[getY()][getX()])))
             tiles.add(this);
         if (proximityMineCount == 0)
         {
@@ -98,9 +98,9 @@ public class CleanTile extends Tile implements Comparable<CleanTile>{
             {
                 for (int xTemp = getX() - 1; xTemp <= getX() + 1; xTemp++)
                 {
-                    if (yTemp >= 0 && yTemp < gameBoard.board.length && xTemp >= 0 && xTemp < gameBoard.board[yTemp].length && (xTemp != getX() || yTemp != getY()) && !(tiles.contains(gameBoard.board[yTemp][xTemp])))
+                    if (yTemp >= 0 && yTemp < gameBoard.getBoard().length && xTemp >= 0 && xTemp < gameBoard.getBoard()[yTemp].length && (xTemp != getX() || yTemp != getY()) && !(tiles.contains(gameBoard.getBoard()[yTemp][xTemp])))
                     {
-                        tiles = ((CleanTile) gameBoard.board[yTemp][xTemp]).openProximity(gameBoard, tiles);
+                        tiles = ((CleanTile) gameBoard.getBoard()[yTemp][xTemp]).openProximity(gameBoard, tiles);
                     }
                 }
             }

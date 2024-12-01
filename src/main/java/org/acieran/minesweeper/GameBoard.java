@@ -6,12 +6,12 @@ import java.util.Random;
 
 public class GameBoard
 {
-    protected int height;
-    protected int width;
-    protected int mineCount;
+    private int height;
+    private int width;
+    private int mineCount;
     protected Tile[][] board;
-    protected ArrayList<Mine> mineList = new ArrayList<>();
-    protected ArrayList<CleanTile> cleanTileList = new ArrayList<>();
+    private ArrayList<Mine> mineList = new ArrayList<>();
+    private ArrayList<CleanTile> cleanTileList = new ArrayList<>();
 
     public GameBoard(Difficulty difficulty) {
         switch (difficulty) {
@@ -55,6 +55,14 @@ public class GameBoard
         board = new Tile[height][width];
         if (setBoard)
             setBoard();
+    }
+
+    public ArrayList<CleanTile> getCleanTileList() {
+        return cleanTileList;
+    }
+
+    public Tile[][] getBoard() {
+        return board;
     }
 
     public int getHeight() {

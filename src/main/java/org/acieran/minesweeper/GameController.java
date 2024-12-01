@@ -35,7 +35,7 @@ public class GameController {
     protected static void initialize() {
         // Initialize the game state
         game = new GameBoard(selectedDifficulty);
-        cleanTileCount = game.height * game.width - game.mineCount;
+        cleanTileCount = game.getHeight() * game.getWidth() - game.getMineCount();
     }
 
     //Just Timer

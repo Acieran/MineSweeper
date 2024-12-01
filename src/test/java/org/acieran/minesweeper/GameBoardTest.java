@@ -16,7 +16,7 @@ class GameBoardTest
         assertEquals(8, board.getHeight());
         assertEquals(8, board.getWidth());
         assertEquals(10, board.getMineCount());
-        assertNotNull(board.board); // Check that the board array is not null
+        assertNotNull(board.getBoard()); // Check that the board array is not null
     }
 
 
@@ -26,7 +26,7 @@ class GameBoardTest
         assertEquals(16, board.getHeight());
         assertEquals(16, board.getWidth());
         assertEquals(40, board.getMineCount());
-        assertNotNull(board.board);
+        assertNotNull(board.getBoard());
     }
 
     @Test
@@ -35,7 +35,7 @@ class GameBoardTest
         assertEquals(22, board.getHeight());
         assertEquals(22, board.getWidth());
         assertEquals(99, board.getMineCount());
-        assertNotNull(board.board);
+        assertNotNull(board.getBoard());
     }
 
     @Test
@@ -44,7 +44,7 @@ class GameBoardTest
         assertEquals(10, board.getHeight());
         assertEquals(10, board.getWidth());
         assertEquals(15, board.getMineCount());
-        assertNotNull(board.board);
+        assertNotNull(board.getBoard());
     }
 
     @ParameterizedTest
@@ -52,41 +52,41 @@ class GameBoardTest
     void testSetMines(int mines) {
         GameBoard board = new GameBoard(30, 30, mines); // Create a board with no mines
         int minecount = 0;
-        for (int y = 0; y < board.height; y++) {
-            for (int x = 0; x < board.width; x++) {
-                if (board.board[y][x] instanceof Mine) {
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                if (board.getBoard()[y][x] instanceof Mine) {
                     minecount++;
                 }
             }
         }
         assertEquals(mines,minecount);
-        assertEquals(mines,board.mineCount);
-        assertEquals(mines,board.mineList.size());
+        assertEquals(mines,board.getMineCount());
+        assertEquals(mines,board.getMineList().size());
     }
 
     @Test
     void testSetCleanTiles()
     {
         GameBoard board = new GameBoard(3,3,2);
-        for (int y = 0; y < board.height; y++) {
-            for (int x = 0; x < board.width; x++) {
-                assertNotEquals(Tile.class,board.board[y][x].getClass());
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
+                assertNotEquals(Tile.class,board.getBoard()[y][x].getClass());
             }
         }
-        assertEquals(7,board.cleanTileList.size());
+        assertEquals(7,board.getCleanTileList().size());
     }
 
     @Test
     void testSetMineCount()
     {
         GameBoard board = new GameBoard(3,3,2);
-        for (int y = 0; y < board.height; y++) {
-            for (int x = 0; x < board.width; x++) {
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
                 if (board.board[y][x] instanceof CleanTile)
                     assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
             }
         }
-        assertEquals(2,board.mineList.size());
+        assertEquals(2,board.getMineList().size());
     }
 
 
@@ -112,7 +112,7 @@ class GameBoardTest
         //Check if the mine is correctly placed in the smaller board
         for (int smallY = 0, boardY = y - 1; smallY < 3; smallY++, boardY++) {
             for (int smallX = 0, boardX = x - 1; smallX < 3; smallX++, boardX++) {
-                if (boardY < 0 || boardY >= board.height || boardX < 0 || boardX >= board.width) {
+                if (boardY < 0 || boardY >= board.getHeight() || boardX < 0 || boardX >= board.getWidth()) {
                     assertEquals(smallerBoard[smallY][smallX].getClass(), CleanTile.class);
                 } else
                     assertEquals(smallerBoard[smallY][smallX].getClass(), board.board[boardY][boardX].getClass());
@@ -124,12 +124,12 @@ class GameBoardTest
     void testCalculateProximityMines()
     {
         GameBoard board = new GameBoard(3,3,2);
-        for (int y = 0; y < board.height; y++) {
-            for (int x = 0; x < board.width; x++) {
+        for (int y = 0; y < board.getHeight(); y++) {
+            for (int x = 0; x < board.getWidth(); x++) {
                 if (board.board[y][x] instanceof CleanTile)
                     assertTrue(((CleanTile) board.board[y][x]).isMineCountSet());
             }
         }
-        assertEquals(2,board.mineList.size());
+        assertEquals(2,board.getMineList().size());
     }
 }

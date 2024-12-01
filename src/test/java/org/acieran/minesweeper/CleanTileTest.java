@@ -37,13 +37,13 @@ class CleanTileTest
     {
         int mineCount = mines;
         GameBoard gameBoard = new GameBoard(3, 3, mines);
-        if (!(gameBoard.board[1][1] instanceof CleanTile))
+        if (!(gameBoard.getBoard()[1][1] instanceof CleanTile))
         {
             mineCount--;
-            gameBoard.board[1][1] = new CleanTile(1, 1);
+            gameBoard.getBoard()[1][1] = new CleanTile(1, 1);
         }
-        CleanTile tile = (CleanTile) gameBoard.board[1][1];
-        tile.countProximityMineCount(gameBoard.board);
+        CleanTile tile = (CleanTile) gameBoard.getBoard()[1][1];
+        tile.countProximityMineCount(gameBoard.getBoard());
         assertEquals(mineCount, tile.getProximityMineCount());
         assertTrue(tile.isMineCountSet());
     }
@@ -65,15 +65,15 @@ class CleanTileTest
             GameBoard gameBoard = new GameBoard(3, 3, 0, false);
             gameBoard.setCleanTiles(); //Creating a small free gameBoard
 
-            gameBoard.mineCount = pair.getKey(); //setting up mines
+            gameBoard.setMineCount(pair.getKey()); //setting up mines
             for (int x = 0; x < pair.getKey(); x++)
             {
                 //Setting up Mines on Top of Tiles per row starting from top left(example below)
-                gameBoard.board[2 - (x / 3)][2 - (x % 3)] = new Mine(2 - (x % 3), 2 - (x/ 3));
+                gameBoard.getBoard()[2 - (x / 3)][2 - (x % 3)] = new Mine(2 - (x % 3), 2 - (x/ 3));
             }
             gameBoard.calculateProximityMines(); //Calculate and invoke open function
             ArrayList<CleanTile> openTiles = new ArrayList<>();
-            for (Tile tile: gameBoard.board[0][0].open(gameBoard))
+            for (Tile tile: gameBoard.getBoard()[0][0].open(gameBoard))
             {
                 openTiles.add((CleanTile) tile);
             }
