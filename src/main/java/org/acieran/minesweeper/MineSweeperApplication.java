@@ -3,7 +3,6 @@ package org.acieran.minesweeper;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.Scene;
@@ -36,12 +35,18 @@ public class MineSweeperApplication extends Application {
     private Label mineCountLabel;
 
     private final Map<Tile.MarkItem, String> MARKMAP = new HashMap<>();
-    private final ArrayList<String> COLORPICKER = new ArrayList<>();
+
+    private static final ArrayList<String> COLORPICKER = new ArrayList<>();
     
     private double height;
     private double width;
 
     private GameBoard gameBoard;
+
+    public static ArrayList<String> getCOLORPICKER()
+    {
+        return COLORPICKER;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -169,7 +174,7 @@ public class MineSweeperApplication extends Application {
                 for (Tile tile: tiles) {    //Tile Opening for all Tiles in List
                     if (tile instanceof CleanTile) {    //Choice is Clean Tile Opened
                         //TODO Window Centering
-                        openTile(tile);
+                        GameController.openTile(tile,gridPane.getChildren());
                         if (gameBoard.getCleanTileList().isEmpty()) { //If the game has no Clean Tiles in List it is Won
                             gridPane.setDisable(true);
                             GameController.stopGame();    //Stop game
@@ -177,7 +182,7 @@ public class MineSweeperApplication extends Application {
                         }
                     } else if (tile instanceof Mine){   //Choice if Mine Opened
                         cellButton.setText("\uD83D\uDCA5"); //Set text to Mine icon
-                        revealAllMines();
+                        GameController.revealAllMines(gridPane.getChildren());
                         gridPane.setDisable(true);
                         GameController.stopGame();    //Stop game
                     }
@@ -212,40 +217,7 @@ public class MineSweeperApplication extends Application {
         COLORPICKER.add(6,"black");
     }
 
-    //Set text in all Tiles in List of Mines to Mine icon
-    private void revealAllMines()
-    {
-        for (Mine mine: gameBoard.getMineList()) {
-            for (Node node : gridPane.getChildren()) {
-                if (GridPane.getColumnIndex(node) == mine.getX() && GridPane.getRowIndex(node) == mine.getY()) {
-                    Button cellButton = (Button) node;
-                    cellButton.setText("\uD83D\uDCA3");
-                }
-            }
-        }
-    }
 
-    protected void openTile(Tile tile)
-    {
-        for (Node node : gridPane.getChildren()) {  //Check all gridPane elements to find element that needs to be opened
-            if (GridPane.getColumnIndex(node) == tile.getX() && GridPane.getRowIndex(node) == tile.getY()) {
-                Button cellButton = (Button) node;
-                CleanTile t = (CleanTile) tile;
-                cellButton.setDisable(true);    //Make it not clickable
-                cellButton.setStyle("-fx-opacity: 0.6; " +  //Set background color and opacity for better text readability
-                                    "-fx-background-color: rgba(212, 226, 240, 0.6)");
-                if (t.getProximityMineCount() > 0) { //If there are nearby mines set text to Number of Mines nearby
-                    cellButton.setText(t.getProximityMineCount() + "");  //Recolor it, increase font
-                    cellButton.setStyle("-fx-text-fill: " + COLORPICKER.get(t.getProximityMineCount()) + ";" +
-                                        "-fx-font-size: 16;" +
-                                        "-fx-font-weight: bold;" +
-                                        "-fx-opacity: 0.6;" +   //Repeat of above actions, because Style if replaced completely
-                                        "-fx-background-color: rgba(212, 226, 240, 0.6)");
-                }
-                gameBoard.getCleanTileList().remove(tile);   //Additionally remove this Tile from list of CleanTile,
-            }                                           //for appropriate win condition check
-        }
-    }
 
     public static void main(String[] args) {
         launch();

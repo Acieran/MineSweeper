@@ -3,7 +3,7 @@ package org.acieran.minesweeper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tile implements CanBeOpened,CanBeMarked{
+public abstract class Tile implements CanBeOpened,CanBeMarked{
     private final int x;
     private final int y;
 

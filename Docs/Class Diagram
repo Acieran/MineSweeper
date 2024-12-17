@@ -1,68 +1,121 @@
-//www.plantuml.com/plantuml/dpng/XLJBRjim4BphA_PefuellUcKnasJ04sSrcbxC7oWfRNDb0-1fFA0u7ylbuH9HwuHmB34cNrePrQwi8uPrqbHr89P2r_QLl2QEQuLz0N0ETWQ5LOmfqi0DapYfMQcWGgk3MyUM2IWuUirhplXtZmptMfU-xZNG3akqNndAnIU2jS0IwvmgZlbZgYOuP57kdha4_owlMEARIGgD_hDRSS4960S8zg6EVoQ7kCRHz6Cnj1RT73DfE-bdD52e9daXzs5tClEEQtcf0P5KjOW8t672LEXBUuJvawth6qZ_s3GsaSk_bVg9puZ4u4SC4dSYVFiE9QwO-RlYKg9-gZEhYYYnGCXe4zoGmLSkMEFz_U9cJq7QrPQ2sJAmyVsNwbEGd_5x5jvhuraehpn5MYSC94zrBbc5W-ogzHmOj7T8DziNVaE-yCRjtqFtNVoZYkq9IXyWKJje8BPwWbhr-zNDSzM-cd3u6LOky4sHkbDTYfBkgB_1LykdfOJtQ8QZSU-pzmPhZRPiDCvHCUSPysRWJLHzkZADWoVRNcXmVDHqiJv65fKG8qNoyMoY6jAu8WcZSLA2e-5mcqiCavPKCKwSOS5gp7eEagXPOeCSISofqnuCvb3Ryni_M3qAvVSlSLQmmhzMXjWGX1kUp9mIej5nnZxUUb_O6M8eNNU7NVTxKKaXlGZIRYTUN_ohaPKUlqzXc57xxN2afwh_D6XfG-VhmGq0rjPPrZjO1OyXeX6yt8xIeK-SZ4mSNaC2aYEtQgaHpGl9dymS-OXUZnicPVd_Fniy9ONxuzmHY47t_eYr2Kml-qq646nMUgUeGjKJIV5Fm00
-
 @startuml
-class Application {
-  - scene: Scene
-  - gameBoard : GridPane
-  - difficulty : ChoiceBox
-  - timerLabel : Label
-  - mineCountLabel : Label
-  - timer : Timer
-  + UIManagment(Visual Managment)
-  + UpdateDifficultyField() {set GameController.difficulty}
-  + ButtonStartGame() {GameController.StartGame}
-  + ButtonCloseGame() {Stopapp}
-  + PressTile() {GameController.RevealTile(GameController.gameBoard.tile)}
-  + MarkTile() {GameController.MarkTile(GameController.gameBoard.tile)}
+    class Tile {
+        - x : int
+        - y : int
+        - mark : MarkItem
+        +Tile(int x, int y)
+        +getY() int
+        +getX() int
+        +open(GameBoard gameBoard) ArrayList<Tile>
+        +mark() MarkItem
+        +getMark() MarkItem
 }
+enum MarkItem {
+        	NONE
+        	MINE
+        	QUESTION
+        	+next(MarkItem item) MarkItem
+        }
 
+    class CleanTile {
+        -proximityMineCount : int
+        -mineCountSet : boolean
+        +CleanTile(int x, int y)
+        +getProximityMineCount() int
+        +isMineCountSet() boolean
+        +getNullTile() CleanTile
+        +compareTo(CleanTile other) int
+        +toString() String
+        +equals(Object obj) boolean
+        +countProximityMineCount(Tile[][] smalltile) void
+        +open(GameBoard gameBoard) ArrayList<Tile>
+        -openProximity(GameBoard gameBoard,ArrayList<Tile> tiles) ArrayList<Tile>
+    }
 
-class GameController {
-  - time : int
-  - gameBoard : GameBoard
-  - gameOver : boolean
+    class Mine {
+        +Mine(int x, int y)
+        +open(GameBoard gameBoard) ArrayList<Tile>
+        +equals(Object obj) boolean
+    }
 
-  - difficulty : Enum {Easy,Normal,Hard}
+    class Difficulty <<enum>> {
+        +Easy
+        +Normal
+        +Hard
+    }
+   class GameBoard {
+        -height : int
+        -width : int
+        -mineCount : int
+        -board : Tile[][]
+        -mineList : ArrayList<Mine>
+        -cleanTileList : ArrayList<CleanTile>
+        +GameBoard(Difficulty difficulty)
+        +GameBoard(int height, int width, int mineCount)
+        +GameBoard(int height, int width, int mineCount, boolean setBoard)
+        +getCleanTileList() ArrayList<CleanTile>
+        +getBoard() Tile[][]
+        +getHeight() int
+        +getWidth() int
+        +getMineCount() int
+        +setMineCount(int mineCount) void
+        +getMineList() ArrayList<Mine>
+        -setMines(int mineCount) void
+        -setCleanTiles() void
+         -getSmallerBoard(int y, int x) Tile[][]
+        -calculateProximityMines() void
+        -setBoard() void
+    }
 
-  + startGame() {case difficulty:GameBoard.setHeight,GameBoard.setWidth,GameBoard.setNumMines, new GameBoard} : Object{GridPane gameBoard,int time,Label mineCountLabel}
-  + revealTile(gameBoard.board[i][j].open()) : String
-  + MarkTile(gameBoard.board[i][j].Mark()) : void
-}
+    class GameController {
+        -timer : Timer
+        -seconds : int
+        -selectedDifficulty : Difficulty
+        -game : GameBoard
+        -cleanTileCount : int
+        +updateDifficulty(Difficulty newValue) void
+        +getSeconds() int
+        +getGame() GameBoard
+        +getCleanTileCount() int
+        +initialize() void
+        +startTimer(Label timerLabel) void
+        +stopTimer() void
+        +stopGame() void
+         +openTile(Tile tile, ObservableList<Node> children) void
+          +revealAllMines(ObservableList<Node> children) void
 
+    }
+   class MineSweeperApplication {
+        -gridPane : GridPane
+        -timerLabel : Label
+         -gameDifficulty : ChoiceBox<Difficulty>
+        -restartButton : Button
+        -root : VBox
+        -mineCountLabel : Label
+        -MARKMAP : Map<Tile.MarkItem, String>
+        -COLORPICKER : ArrayList<String>
+        -height : double
+        -width : double
+        -gameBoard : GameBoard
+        +start(Stage stage) void
+        +initialize() void
+        -setGameDifficulty() void
+        -sizeHandler(double width,double height) void
+        +updateDifficulty(Difficulty newDifficulty) void
+         +newGame() void
+         -createGrid(GameBoard board) void
+        -getButton(Tile t) Button
+         -initFinals() void
+    }
 
-class GameBoard {
-  - height: int
-  - width: int
-  - mines: int
-  - board: Tile[][]
-
-  + Board(int height, int width, int mines) Tile[][] : board
-  + PlaceMines(int mines,Tile[][] board) Tile[][] : board
-  + CalculateNumOfProximityMines(Tile[][] board) {for allTiles{new CleanTile(Tile[3][3] smallTile)}} Tile[][] : board
-}
-
-class Tile {
-   - isOpen : boolean
-   - mark : enum {None,Mine,Question}
-
-   + abstract Open()
-   + Mark()
-}
-
-class Mine {
-   + Open()
-}
-
-class CleanTile {
-   - minesInProximity: int
-
-   + CleanTile(Tile[3][3] smallTile) CleanTile : Tile
-   + Open()
-}
-
-GameBoard --* GameController
-GameController *--* Application
-Tile --* GameBoard
-Mine --* Tile
-CleanTile --* Tile
+    Tile <|-- CleanTile
+    Tile <|-- Mine
+    Tile <|.. MarkItem
+    GameBoard *-- Tile
+    GameBoard *-- Mine
+    GameBoard *-- CleanTile
+    GameController *-- GameBoard
+    MineSweeperApplication *-- GameBoard
+     MineSweeperApplication *-- Difficulty
+MineSweeperApplication *--* GameController
 @enduml
