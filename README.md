@@ -26,7 +26,7 @@ This project is a faithful recreation of the classic Windows Minesweeper game, i
 ## Installation and Running
 
 1.  **Download:**
-    *   Download latest release from GitHub:  `https://github.com/Acieran/MineSweeper/releases`
+    *   Download latest release from GitHub:  https://github.com/Acieran/MineSweeper/releases
 
 ## Usage
 
